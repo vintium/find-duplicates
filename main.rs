@@ -162,11 +162,14 @@ type SizewiseDups = HashMap<u64, Vec<fs::DirEntry>>;
 
 fn find_sizewise_dups(options: &Options,
                       mut files: Vec<fs::DirEntry>) -> SizewiseDups { 
+  // keep track of how many files we started with for logging
+  let amt_files = files.len();
   // keep track of sizes for which 2 or more files have been found
   let mut dup_sizes: HashSet<u64> = HashSet::new(); 
   // build map of filesizes to lists of files with that size
   let mut maybe_dups: SizewiseDups = HashMap::new();
   for (n, de) in files.drain(..).enumerate() {
+    print!("Size-checking {}/{} files...\r", n, amt_files);
     let md = de.metadata().expect("failed to stat");
     // it would be an error if there were directories in the file list
     assert!(!md.is_dir()); 
@@ -178,6 +181,7 @@ fn find_sizewise_dups(options: &Options,
       maybe_dups.insert(fsize, vec![de]);
     }
   }
+  println!("Size-checked {}/{} files.       ", amt_files, amt_files);
   // collect all of the size-wise dups we found
   let mut res: SizewiseDups = HashMap::new();
   for dup_size in dup_sizes {
