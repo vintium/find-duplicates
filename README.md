@@ -14,7 +14,7 @@ $ find_duplicates.py -r ~/some-dir-with-maybe-duplicate-files
 
 # Help
 ```
-USAGE: ./main [flags] <input>
+USAGE: ./find_duplicates.py [flags] <input>
   where [flags] can be 0 or more of the following:
     -r, --recursive      include files in subdirectories,
                          search recursively.
