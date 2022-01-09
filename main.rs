@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use std::fs;
 use std::collections::HashMap;
 use std::collections::HashSet;
-
+use adler32::adler32;
 
 fn usage(pn: &str) {
   println!("USAGE: {} [flags] <input>", pn);
@@ -156,8 +156,8 @@ fn build_file_list(options: &Options) -> Vec<fs::DirEntry> {
    sizewise perspective.
 */
 
-// a map whose keys are filesizes and whose values are sets of files with a
-// given size.          /* TODO consider changing to slice or set */
+// a map whose keys are filesizes and whose values are vecs of files with a
+// given size.          /* TODO consider changing to set */
 type SizewiseDups = HashMap<u64, Vec<fs::DirEntry>>;
 
 fn find_sizewise_dups(options: &Options,
@@ -190,6 +190,71 @@ fn find_sizewise_dups(options: &Options,
   res
 }
 
+// Adler32 algorithm and implementation taken from here:
+// https://en.wikipedia.org/wiki/Adler-32#Example_implementation
+const MOD_ADLER: u32 = 65521;
+fn my_adler32(data: Vec<u8>) -> u32 {
+  let mut a: u32 = 1;
+  let mut b: u32 = 0;
+  for byte in data {
+    a = (a + (byte as u32)) % MOD_ADLER;
+    b = (b + a) % MOD_ADLER; 
+  } 
+
+  (b << 16) | a
+
+}
+
+
+fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
+  adler32(fs::File::open(f.path()).unwrap()).unwrap()
+}
+
+
+/*
+   I'm using the term 'dup' to describe 2 or more files which
+   share the same checksum, therefore appearing to be duplicates from a
+   checksumwise perspective.
+*/
+
+// a map whose keys are checksums and whose values are vecs of files with a
+// given checksum.     /* TODO consider changing to set */
+type Dups = HashMap<u32, Vec<fs::DirEntry>>; 
+
+fn filter_non_dups(options: &Options, 
+                   mut sizewise_dups: SizewiseDups) -> Dups { 
+  let mut calculation_count: usize = 0;
+  // keep track of checksums for which 2 or more files have been found
+  let mut dup_checksums: HashSet<u32> = HashSet::new(); 
+  // build map of checksums to lists of files with that checksum
+  let mut maybe_dups: Dups = HashMap::new();
+  for (size, mut files) in sizewise_dups.drain() { 
+    let amt_files = files.len();
+    assert!(files.len() > 1);
+    for (n, file) in files.drain(..).enumerate() {
+      print!("Calculating checksum {}\r", calculation_count);
+      calculation_count += 1;
+      let fchecksum = calc_file_checksum(&file);
+      if maybe_dups.contains_key(&fchecksum) {
+        maybe_dups.get_mut(&fchecksum).unwrap().push(file);
+        dup_checksums.insert(fchecksum);
+      } else {
+        maybe_dups.insert(fchecksum, vec![file]);
+      } 
+    } 
+  }
+  println!("Calculated checksums of  {} files.       ", calculation_count);
+  // collect all of the dups we found
+  let mut res: Dups = HashMap::new();
+  for dup_checksum in dup_checksums {
+    res.insert(dup_checksum, maybe_dups.remove(&dup_checksum).unwrap());
+  } 
+  res
+ 
+}
+
+
+
 fn main() {
   let options = parse_args(env::args());
   println!("{:?}", options);
@@ -197,7 +262,8 @@ fn main() {
   //println!("{:?}", file_list);
   let sizewise_dups = find_sizewise_dups(&options, file_list);
   //println!("{:?}", sizewise_dups);
-
+  let dups = filter_non_dups(&options, sizewise_dups);
+  println!("Found {} duplicates", dups.len());  
 }
 
 
