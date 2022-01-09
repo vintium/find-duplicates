@@ -17,11 +17,10 @@ def hash_digest(fname: str) -> str:
             hash_blake2b.update(chunk)
     return hash_blake2b.hexdigest()
 
-def fil_checksum(fname: str) -> str:
+def fil_checksum(fname: str) -> int:
     with open(fname, "rb") as f:
         d = f.read()
         return adler32(d)
-
 
 def usage():
     print(f"USAGE: {PROGRAM_NAME} [flags] <input>")
