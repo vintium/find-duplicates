@@ -1,6 +1,6 @@
 use std::env;
 use std::process;
-use std::path::PathBuf;
+use std::path::{PathBuf, Path};
 use std::fs;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -20,7 +20,13 @@ fn usage(pn: &str) {
   println!("                         good for redirecting to files or");
   println!("                         piping to other programs. cannot");
   println!("                         be used with -v, --verbose");
-  println!();
+  println!("");
+  println!("    -nl, --no-links      disable the reporting of linked files");
+  println!("                         as duplicates. ignore symbolic");
+  println!("                         links, and ignore duplicates which");
+  println!("                         share the same inode number. (this");
+  println!("                         removes hard-link-wise duplicates.)");
+  println!("");
   println!("    -y, --no-warn        disable large-output warnings.");
   println!();
   println!("    -h, --help           print this message.");
@@ -37,6 +43,7 @@ struct Options {
   recursive: bool,
   warn: bool,
   quiet: bool,
+  nolinks: bool,  
 }
 
 impl Options {
@@ -47,6 +54,7 @@ impl Options {
       quiet: false,
       recursive: false,
       warn: true, 
+      nolinks: false,
     }
   }
 }
@@ -76,6 +84,7 @@ fn parse_args(mut args: env::Args) -> Options {
       },
       "-r" | "--recursive" => res.recursive = true,
       "-y" | "--no-warn"   => res.warn = false,
+      "-nl" | "--no-links" => res.nolinks = true,
       "-h" | "--help"      => {
         usage(&program_name);
         process::exit(1);
@@ -101,47 +110,105 @@ fn parse_args(mut args: env::Args) -> Options {
   res
 }
 
+/*
+  I'm using 'file identifier' to mean a number that is shared across (hard  or
+  soft) linked files.
+*/
+
+
+// on unix, we can use the inode number as a file identifier. 
+#[cfg(unix)]
+fn get_file_identifier(fp: &Path) -> u64 { 
+   /* NOTE: this function expects the path passed in to
+      have been pre-verified to exist. */
+   use std::os::unix::fs::MetadataExt;
+   let md = fs::metadata(fp).unwrap();
+   md.ino() 
+
+}
+
+// on windows, we can use the nFileIndex{Low,High} as a file identifier.
+#[cfg(windows)]
+fn get_file_identifier(fp: &Path) -> u64 { 
+    /* NOTE: this function expects the path passed in to
+       have been pre-verified to exist. */
+    use std::os::windows::fs::MetadataExt;
+    todo!("This function is untested! also, it needs nightly!"); 
+    let md = fs::metadata(fp).unwrap();
+    md.file_index().unwrap()
+
+}
+
+type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
+type LinkedGroup = (u64 /* file identifier */, Vec<fs::DirEntry> /* files linked to the identifier */);
+
+fn is_symlink_to_dir(de: &fs::DirEntry) -> std::io::Result<bool> {
+  Ok(de.metadata()?
+    .is_symlink()
+  && fs::metadata(de.path())?
+     .is_dir())
+}
+
+
 // TODO: Make this more idiomatic, use iterators the whole way thru
-fn rec_read_dir(de: fs::DirEntry, acc: &mut Vec<fs::DirEntry>) {
-  if de.file_type().expect("failed to stat").is_dir() {
+fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
+  if de.metadata()
+       .expect("failed to stat")
+       .is_dir() {
     for md in de.path().read_dir().expect("read_dir call failed") {
       rec_read_dir(md.expect("failed to stat"), acc);
     }
+  } else if is_symlink_to_dir(&de).expect("failed to stat") {
+    /* ignore symlink directories */
   } else {
-    acc.push(de);
+    let fi = get_file_identifier(&de.path());
+    if acc.contains_key(&fi) {
+      acc.get_mut(&fi).unwrap().push(de);
+    } else {
+      acc.insert(fi, vec![de]);
+    }    
     print!("Building file list... {} \r", acc.len());
   }
 }
 
-fn build_file_list(options: &Options) -> Vec<fs::DirEntry> {
+fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
   if !options.quiet {
     print!("Building file list... \r");
   }
 
   if options.recursive {
-    let mut acc = Vec::<fs::DirEntry>::new();
+    let mut acc = EntriesByIdentifiers::new();
     for md in options.target_dir.read_dir().expect("read_dir call failed") {
       rec_read_dir(md.expect("failed to stat"), &mut acc);
     }
     if !options.quiet {
       println!("\nFound {} files.", acc.len());
     }
-    acc
+    acc.drain().collect()
   } else {
-    let res: Vec<fs::DirEntry> = options.target_dir
-                                  .read_dir()
-                                  .expect("read_dir call failed")
-                                  .enumerate()
-                                  .map(|(i, a)| {
-                                    print!("Building file list... {}\r", i);
-                                    a.expect("failed to stat")
-                                  })
-                                  .filter(|a| { 
-                                    !a.file_type()
-                                      .expect("failed to stat")
-                                      .is_dir()
-                                  })
-                                  .collect();
+    let mut acc = EntriesByIdentifiers::new();
+    let _ = options.target_dir
+           .read_dir()
+           .expect("read_dir call failed")
+           .enumerate()
+           .map(|(i, a)| {
+             print!("Building file list... {}\r", i);
+             a.expect("failed to stat")
+           })
+           .filter(|a| { 
+             !fs::metadata(a.path()).expect("failed to stat").is_dir()
+           })
+           .map(|a| {
+             let fi = get_file_identifier(&a.path());
+             if acc.contains_key(&fi) {
+               acc.get_mut(&fi).unwrap().push(a);
+             } else {
+               acc.insert(fi, vec![a]);
+             }
+           })
+           .count(); /* use `count` to exhaust this
+           iterator and run each iteration */
+    let res: Vec<LinkedGroup> = acc.drain().collect();
     println!("Building file list... {}", res.len());
     if !options.quiet {
       println!("Found {} files.", res.len());
@@ -259,11 +326,15 @@ fn main() {
   let options = parse_args(env::args());
   println!("{:?}", options);
   let file_list = build_file_list(&options);
-  //println!("{:?}", file_list);
+  for item in file_list {
+    println!("{:?}", item);
+  }
+  /*
   let sizewise_dups = find_sizewise_dups(&options, file_list);
   //println!("{:?}", sizewise_dups);
   let dups = filter_non_dups(&options, sizewise_dups);
   println!("Found {} duplicates", dups.len());  
+  */
 }
 
 
