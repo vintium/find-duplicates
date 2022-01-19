@@ -1,5 +1,7 @@
 use std::env;
 use std::process;
+use std::io::Write;
+use std::fmt::Write as OtherWrite;
 use std::path::{PathBuf, Path};
 use std::fs;
 use std::collections::HashMap;
@@ -155,9 +157,16 @@ fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
   if de.metadata()
        .expect("failed to stat")
        .is_dir() {
-    for md in de.path().read_dir().expect("read_dir call failed") {
-      rec_read_dir(md.expect("failed to stat"), acc);
-    }
+    match de.path().read_dir() {
+      Ok(rd) => {
+        for md in rd {
+          rec_read_dir(md.expect("failed to stat"), acc);
+        }
+      },
+      Err(e) => {
+        eprintln!("Error: could not read directory {:?}: {}", de.path(), e);
+      }
+    }   
   } else if is_symlink_to_dir(&de).expect("failed to stat") {
     /* ignore symlink directories */
   } else {
@@ -187,6 +196,7 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
     acc.drain().collect()
   } else {
     let mut acc = EntriesByIdentifiers::new();
+    
     let _ = options.target_dir
            .read_dir()
            .expect("read_dir call failed")
@@ -225,10 +235,10 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
 
 // a map whose keys are filesizes and whose values are vecs of files with a
 // given size.          /* TODO consider changing to set */
-type SizewiseDups = HashMap<u64, Vec<fs::DirEntry>>;
+type SizewiseDups = HashMap<u64, Vec<LinkedGroup>>;
 
 fn find_sizewise_dups(options: &Options,
-                      mut files: Vec<fs::DirEntry>) -> SizewiseDups { 
+                      mut files: Vec<LinkedGroup>) -> SizewiseDups { 
   // keep track of how many files we started with for logging
   let amt_files = files.len();
   // keep track of sizes for which 2 or more files have been found
@@ -237,7 +247,7 @@ fn find_sizewise_dups(options: &Options,
   let mut maybe_dups: SizewiseDups = HashMap::new();
   for (n, de) in files.drain(..).enumerate() {
     print!("Size-checking {}/{} files...\r", n, amt_files);
-    let md = de.metadata().expect("failed to stat");
+    let md = de.1[0].metadata().expect("failed to stat");
     // it would be an error if there were directories in the file list
     assert!(!md.is_dir()); 
     let fsize = md.len();
@@ -248,7 +258,7 @@ fn find_sizewise_dups(options: &Options,
       maybe_dups.insert(fsize, vec![de]);
     }
   }
-  println!("Size-checked {}/{} files.       ", amt_files, amt_files);
+  println!("Size-checked {}/{} files.          ", amt_files, amt_files);
   // collect all of the size-wise dups we found
   let mut res: SizewiseDups = HashMap::new();
   for dup_size in dup_sizes {
@@ -286,11 +296,12 @@ fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
 
 // a map whose keys are checksums and whose values are vecs of files with a
 // given checksum.     /* TODO consider changing to set */
-type Dups = HashMap<u32, Vec<fs::DirEntry>>; 
+type Dups = HashMap<u32, Vec<LinkedGroup>>; 
 
 fn filter_non_dups(options: &Options, 
                    mut sizewise_dups: SizewiseDups) -> Dups { 
   let mut calculation_count: usize = 0;
+  let total = sizewise_dups.values().flatten().count();
   // keep track of checksums for which 2 or more files have been found
   let mut dup_checksums: HashSet<u32> = HashSet::new(); 
   // build map of checksums to lists of files with that checksum
@@ -299,9 +310,10 @@ fn filter_non_dups(options: &Options,
     let amt_files = files.len();
     assert!(files.len() > 1);
     for (n, file) in files.drain(..).enumerate() {
-      print!("Calculating checksum {}\r", calculation_count);
+      print!("Calculating checksum {}/{}...\r", calculation_count, total);
+      std::io::stdout().flush();
       calculation_count += 1;
-      let fchecksum = calc_file_checksum(&file);
+      let fchecksum = calc_file_checksum(&(file.1[0]));
       if maybe_dups.contains_key(&fchecksum) {
         maybe_dups.get_mut(&fchecksum).unwrap().push(file);
         dup_checksums.insert(fchecksum);
@@ -310,7 +322,7 @@ fn filter_non_dups(options: &Options,
       } 
     } 
   }
-  println!("Calculated checksums of  {} files.       ", calculation_count);
+  println!("Calculated checksums of {} files.         ", calculation_count);
   // collect all of the dups we found
   let mut res: Dups = HashMap::new();
   for dup_checksum in dup_checksums {
@@ -321,20 +333,43 @@ fn filter_non_dups(options: &Options,
 }
 
 
+fn fmt_linkedgroup(lg: LinkedGroup) -> String {
+  let mut acc = String::new();
+  write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy());
+  if lg.1.len() > 1 {
+    write!(acc, " (aka ");
+  }
+  for idx in 1..(lg.1.len()-1) {
+    let de = &lg.1[idx];
+    write!(acc, "{:?}, ", de.path().as_os_str().to_string_lossy());
+  }
+  if lg.1.len() > 1 {
+    write!(acc, "{:?})", lg.1[lg.1.len()-1].path().as_os_str().to_string_lossy());
+  }
+  acc
+}
+
+
+fn print_dups(ds: Dups) {
+    for d in ds {
+        println!("files with checksum {}:", d.0);
+        for lg in d.1 { 
+            println!("  {}", fmt_linkedgroup(lg));
+        }
+    }
+}
+
 
 fn main() {
   let options = parse_args(env::args());
   println!("{:?}", options);
   let file_list = build_file_list(&options);
-  for item in file_list {
-    println!("{:?}", item);
-  }
-  /*
-  let sizewise_dups = find_sizewise_dups(&options, file_list);
-  //println!("{:?}", sizewise_dups);
+  let sizewise_dups = find_sizewise_dups(&options, file_list); 
+  println!("Found {} groups of files with equal sizes. {} files total.", sizewise_dups.len(), sizewise_dups.values().flatten().count()); 
   let dups = filter_non_dups(&options, sizewise_dups);
-  println!("Found {} duplicates", dups.len());  
-  */
+  println!("Found {} duplicates.", dups.len());  
+  print_dups(dups);
+    
 }
 
 
