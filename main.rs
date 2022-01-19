@@ -1,10 +1,14 @@
 use std::env;
 use std::process;
-use std::path::PathBuf;
+use std::io::Write;
+use std::fmt::Write as OtherWrite;
+use std::path::{PathBuf, Path};
 use std::fs;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use adler32::adler32;
+
+
 
 fn usage(pn: &str) {
   println!("USAGE: {} [flags] <input>", pn);
@@ -21,8 +25,6 @@ fn usage(pn: &str) {
   println!("                         piping to other programs. cannot");
   println!("                         be used with -v, --verbose");
   println!();
-  println!("    -y, --no-warn        disable large-output warnings.");
-  println!();
   println!("    -h, --help           print this message.");
   println!();
   println!("  and where <input> is a path to a directory.");
@@ -35,7 +37,6 @@ struct Options {
   target_dir: PathBuf,
   verbose: bool,
   recursive: bool,
-  warn: bool,
   quiet: bool,
 }
 
@@ -46,7 +47,6 @@ impl Options {
       verbose: false,
       quiet: false,
       recursive: false,
-      warn: true, 
     }
   }
 }
@@ -75,7 +75,6 @@ fn parse_args(mut args: env::Args) -> Options {
           res.quiet = true;
       },
       "-r" | "--recursive" => res.recursive = true,
-      "-y" | "--no-warn"   => res.warn = false,
       "-h" | "--help"      => {
         usage(&program_name);
         process::exit(1);
@@ -101,47 +100,113 @@ fn parse_args(mut args: env::Args) -> Options {
   res
 }
 
+/*
+  I'm using 'file identifier' to mean a number that is shared across (hard  or
+  soft) linked files.
+*/
+
+
+// on unix, we can use the inode number as a file identifier. 
+#[cfg(unix)]
+fn get_file_identifier(fp: &Path) -> u64 { 
+   /* NOTE: this function expects the path passed in to
+      have been pre-verified to exist. */
+   use std::os::unix::fs::MetadataExt;
+   let md = fs::metadata(fp).unwrap();
+   md.ino() 
+
+}
+
+// on windows, we can use the nFileIndex{Low,High} as a file identifier.
+#[cfg(windows)]
+fn get_file_identifier(fp: &Path) -> u64 { 
+    /* NOTE: this function expects the path passed in to
+       have been pre-verified to exist. */
+    use std::os::windows::fs::MetadataExt;
+    todo!("This function is untested! also, it needs nightly!"); 
+    let md = fs::metadata(fp).unwrap();
+    md.file_index().unwrap()
+
+}
+
+type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
+type LinkedGroup = (u64 /* file identifier */, Vec<fs::DirEntry> /* files linked to the identifier */);
+
+fn is_symlink_to_dir(de: &fs::DirEntry) -> std::io::Result<bool> {
+  Ok(de.metadata()?
+    .is_symlink()
+  && fs::metadata(de.path())?
+     .is_dir())
+}
+
+
 // TODO: Make this more idiomatic, use iterators the whole way thru
-fn rec_read_dir(de: fs::DirEntry, acc: &mut Vec<fs::DirEntry>) {
-  if de.file_type().expect("failed to stat").is_dir() {
-    for md in de.path().read_dir().expect("read_dir call failed") {
-      rec_read_dir(md.expect("failed to stat"), acc);
-    }
+fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
+  if de.metadata()
+       .expect("failed to stat")
+       .is_dir() {
+    match de.path().read_dir() {
+      Ok(rd) => {
+        for md in rd {
+          rec_read_dir(md.expect("failed to stat"), acc);
+        }
+      },
+      Err(e) => {
+        eprintln!("Error: could not read directory {:?}: {}", de.path(), e);
+      }
+    }   
+  } else if is_symlink_to_dir(&de).expect("failed to stat") {
+    /* ignore symlink directories */
   } else {
-    acc.push(de);
+    let fi = get_file_identifier(&de.path());
+    if acc.contains_key(&fi) {
+      acc.get_mut(&fi).unwrap().push(de);
+    } else {
+      acc.insert(fi, vec![de]);
+    }    
     print!("Building file list... {} \r", acc.len());
   }
 }
 
-fn build_file_list(options: &Options) -> Vec<fs::DirEntry> {
+fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
   if !options.quiet {
     print!("Building file list... \r");
   }
 
   if options.recursive {
-    let mut acc = Vec::<fs::DirEntry>::new();
+    let mut acc = EntriesByIdentifiers::new();
     for md in options.target_dir.read_dir().expect("read_dir call failed") {
       rec_read_dir(md.expect("failed to stat"), &mut acc);
     }
     if !options.quiet {
       println!("\nFound {} files.", acc.len());
     }
-    acc
+    acc.drain().collect()
   } else {
-    let res: Vec<fs::DirEntry> = options.target_dir
-                                  .read_dir()
-                                  .expect("read_dir call failed")
-                                  .enumerate()
-                                  .map(|(i, a)| {
-                                    print!("Building file list... {}\r", i);
-                                    a.expect("failed to stat")
-                                  })
-                                  .filter(|a| { 
-                                    !a.file_type()
-                                      .expect("failed to stat")
-                                      .is_dir()
-                                  })
-                                  .collect();
+    let mut acc = EntriesByIdentifiers::new();
+    
+    let _ = options.target_dir
+           .read_dir()
+           .expect("read_dir call failed")
+           .enumerate()
+           .map(|(i, a)| {
+             print!("Building file list... {}\r", i);
+             a.expect("failed to stat")
+           })
+           .filter(|a| { 
+             !fs::metadata(a.path()).expect("failed to stat").is_dir()
+           })
+           .map(|a| {
+             let fi = get_file_identifier(&a.path());
+             if acc.contains_key(&fi) {
+               acc.get_mut(&fi).unwrap().push(a);
+             } else {
+               acc.insert(fi, vec![a]);
+             }
+           })
+           .count(); /* use `count` to exhaust this
+           iterator and run each iteration */
+    let res: Vec<LinkedGroup> = acc.drain().collect();
     println!("Building file list... {}", res.len());
     if !options.quiet {
       println!("Found {} files.", res.len());
@@ -158,10 +223,9 @@ fn build_file_list(options: &Options) -> Vec<fs::DirEntry> {
 
 // a map whose keys are filesizes and whose values are vecs of files with a
 // given size.          /* TODO consider changing to set */
-type SizewiseDups = HashMap<u64, Vec<fs::DirEntry>>;
+type SizewiseDups = HashMap<u64, Vec<LinkedGroup>>;
 
-fn find_sizewise_dups(options: &Options,
-                      mut files: Vec<fs::DirEntry>) -> SizewiseDups { 
+fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups { 
   // keep track of how many files we started with for logging
   let amt_files = files.len();
   // keep track of sizes for which 2 or more files have been found
@@ -170,7 +234,7 @@ fn find_sizewise_dups(options: &Options,
   let mut maybe_dups: SizewiseDups = HashMap::new();
   for (n, de) in files.drain(..).enumerate() {
     print!("Size-checking {}/{} files...\r", n, amt_files);
-    let md = de.metadata().expect("failed to stat");
+    let md = de.1[0].metadata().expect("failed to stat");
     // it would be an error if there were directories in the file list
     assert!(!md.is_dir()); 
     let fsize = md.len();
@@ -181,7 +245,7 @@ fn find_sizewise_dups(options: &Options,
       maybe_dups.insert(fsize, vec![de]);
     }
   }
-  println!("Size-checked {}/{} files.       ", amt_files, amt_files);
+  println!("Size-checked {}/{} files.          ", amt_files, amt_files);
   // collect all of the size-wise dups we found
   let mut res: SizewiseDups = HashMap::new();
   for dup_size in dup_sizes {
@@ -190,6 +254,7 @@ fn find_sizewise_dups(options: &Options,
   res
 }
 
+/*
 // Adler32 algorithm and implementation taken from here:
 // https://en.wikipedia.org/wiki/Adler-32#Example_implementation
 const MOD_ADLER: u32 = 65521;
@@ -204,7 +269,7 @@ fn my_adler32(data: Vec<u8>) -> u32 {
   (b << 16) | a
 
 }
-
+*/
 
 fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
   adler32(fs::File::open(f.path()).unwrap()).unwrap()
@@ -219,22 +284,22 @@ fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
 
 // a map whose keys are checksums and whose values are vecs of files with a
 // given checksum.     /* TODO consider changing to set */
-type Dups = HashMap<u32, Vec<fs::DirEntry>>; 
+type Dups = HashMap<u32, Vec<LinkedGroup>>; 
 
-fn filter_non_dups(options: &Options, 
-                   mut sizewise_dups: SizewiseDups) -> Dups { 
+fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups { 
   let mut calculation_count: usize = 0;
+  let total = sizewise_dups.values().flatten().count();
   // keep track of checksums for which 2 or more files have been found
   let mut dup_checksums: HashSet<u32> = HashSet::new(); 
   // build map of checksums to lists of files with that checksum
   let mut maybe_dups: Dups = HashMap::new();
-  for (size, mut files) in sizewise_dups.drain() { 
-    let amt_files = files.len();
+  for (_size, mut files) in sizewise_dups.drain() { 
     assert!(files.len() > 1);
-    for (n, file) in files.drain(..).enumerate() {
-      print!("Calculating checksum {}\r", calculation_count);
+    for file in files.drain(..) {
+      print!("Calculating checksum {}/{}...\r", calculation_count, total);
+      std::io::stdout().flush().unwrap();
       calculation_count += 1;
-      let fchecksum = calc_file_checksum(&file);
+      let fchecksum = calc_file_checksum(&(file.1[0]));
       if maybe_dups.contains_key(&fchecksum) {
         maybe_dups.get_mut(&fchecksum).unwrap().push(file);
         dup_checksums.insert(fchecksum);
@@ -243,7 +308,7 @@ fn filter_non_dups(options: &Options,
       } 
     } 
   }
-  println!("Calculated checksums of  {} files.       ", calculation_count);
+  println!("Calculated checksums of {} files.         ", calculation_count);
   // collect all of the dups we found
   let mut res: Dups = HashMap::new();
   for dup_checksum in dup_checksums {
@@ -254,16 +319,43 @@ fn filter_non_dups(options: &Options,
 }
 
 
+fn fmt_linkedgroup(lg: LinkedGroup) -> String {
+  let mut acc = String::new();
+  write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy()).unwrap();
+  if lg.1.len() > 1 {
+    write!(acc, " (aka ").unwrap();
+  }
+  for idx in 1..(lg.1.len()-1) {
+    let de = &lg.1[idx];
+    write!(acc, "{:?}, ", de.path().as_os_str().to_string_lossy()).unwrap();
+  }
+  if lg.1.len() > 1 {
+    write!(acc, "{:?})", lg.1[lg.1.len()-1].path().as_os_str().to_string_lossy()).unwrap();
+  }
+  acc
+}
+
+
+fn print_dups(ds: Dups) {
+    for d in ds {
+        println!("files with checksum {}:", d.0);
+        for lg in d.1 { 
+            println!("  {}", fmt_linkedgroup(lg));
+        }
+    }
+}
+
 
 fn main() {
   let options = parse_args(env::args());
   println!("{:?}", options);
   let file_list = build_file_list(&options);
-  //println!("{:?}", file_list);
-  let sizewise_dups = find_sizewise_dups(&options, file_list);
-  //println!("{:?}", sizewise_dups);
-  let dups = filter_non_dups(&options, sizewise_dups);
-  println!("Found {} duplicates", dups.len());  
+  let sizewise_dups = find_sizewise_dups(file_list); 
+  println!("Found {} groups of files with equal sizes. {} files total.", sizewise_dups.len(), sizewise_dups.values().flatten().count()); 
+  let dups = filter_non_dups(sizewise_dups);
+  println!("Found {} duplicates.", dups.len());  
+  print_dups(dups);
+    
 }
 
 
