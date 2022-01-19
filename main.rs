@@ -319,7 +319,7 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
 }
 
 
-fn fmt_linkedgroup(lg: LinkedGroup) -> String {
+fn fmt_linkedgroup(lg: &LinkedGroup) -> String {
   let mut acc = String::new();
   write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy()).unwrap();
   if lg.1.len() > 1 {
@@ -336,11 +336,11 @@ fn fmt_linkedgroup(lg: LinkedGroup) -> String {
 }
 
 
-fn print_dups(ds: Dups) {
+fn print_dups(ds: &Dups) {
     for d in ds {
         println!("files with checksum {}:", d.0);
         for lg in d.1 { 
-            println!("  {}", fmt_linkedgroup(lg));
+            println!("  {}", fmt_linkedgroup(&lg));
         }
     }
 }
@@ -353,7 +353,7 @@ fn main() {
   println!("Found {} groups of files with equal sizes. {} files total.", sizewise_dups.len(), sizewise_dups.values().flatten().count()); 
   let dups = filter_non_dups(sizewise_dups);
   println!("Found {} duplicates.", dups.len());  
-  print_dups(dups);
+  print_dups(&dups);
     
 }
 
