@@ -348,7 +348,6 @@ fn print_dups(ds: Dups) {
 
 fn main() {
   let options = parse_args(env::args());
-  println!("{:?}", options);
   let file_list = build_file_list(&options);
   let sizewise_dups = find_sizewise_dups(file_list); 
   println!("Found {} groups of files with equal sizes. {} files total.", sizewise_dups.len(), sizewise_dups.values().flatten().count()); 
