@@ -8,6 +8,8 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use adler32::adler32;
 
+
+
 fn usage(pn: &str) {
   println!("USAGE: {} [flags] <input>", pn);
   println!("  where [flags] can be 0 or more of the following:");
@@ -22,14 +24,6 @@ fn usage(pn: &str) {
   println!("                         good for redirecting to files or");
   println!("                         piping to other programs. cannot");
   println!("                         be used with -v, --verbose");
-  println!("");
-  println!("    -nl, --no-links      disable the reporting of linked files");
-  println!("                         as duplicates. ignore symbolic");
-  println!("                         links, and ignore duplicates which");
-  println!("                         share the same inode number. (this");
-  println!("                         removes hard-link-wise duplicates.)");
-  println!("");
-  println!("    -y, --no-warn        disable large-output warnings.");
   println!();
   println!("    -h, --help           print this message.");
   println!();
@@ -43,9 +37,7 @@ struct Options {
   target_dir: PathBuf,
   verbose: bool,
   recursive: bool,
-  warn: bool,
   quiet: bool,
-  nolinks: bool,  
 }
 
 impl Options {
@@ -55,8 +47,6 @@ impl Options {
       verbose: false,
       quiet: false,
       recursive: false,
-      warn: true, 
-      nolinks: false,
     }
   }
 }
@@ -85,8 +75,6 @@ fn parse_args(mut args: env::Args) -> Options {
           res.quiet = true;
       },
       "-r" | "--recursive" => res.recursive = true,
-      "-y" | "--no-warn"   => res.warn = false,
-      "-nl" | "--no-links" => res.nolinks = true,
       "-h" | "--help"      => {
         usage(&program_name);
         process::exit(1);
@@ -237,8 +225,7 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
 // given size.          /* TODO consider changing to set */
 type SizewiseDups = HashMap<u64, Vec<LinkedGroup>>;
 
-fn find_sizewise_dups(options: &Options,
-                      mut files: Vec<LinkedGroup>) -> SizewiseDups { 
+fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups { 
   // keep track of how many files we started with for logging
   let amt_files = files.len();
   // keep track of sizes for which 2 or more files have been found
@@ -267,6 +254,7 @@ fn find_sizewise_dups(options: &Options,
   res
 }
 
+/*
 // Adler32 algorithm and implementation taken from here:
 // https://en.wikipedia.org/wiki/Adler-32#Example_implementation
 const MOD_ADLER: u32 = 65521;
@@ -281,7 +269,7 @@ fn my_adler32(data: Vec<u8>) -> u32 {
   (b << 16) | a
 
 }
-
+*/
 
 fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
   adler32(fs::File::open(f.path()).unwrap()).unwrap()
@@ -298,20 +286,18 @@ fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
 // given checksum.     /* TODO consider changing to set */
 type Dups = HashMap<u32, Vec<LinkedGroup>>; 
 
-fn filter_non_dups(options: &Options, 
-                   mut sizewise_dups: SizewiseDups) -> Dups { 
+fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups { 
   let mut calculation_count: usize = 0;
   let total = sizewise_dups.values().flatten().count();
   // keep track of checksums for which 2 or more files have been found
   let mut dup_checksums: HashSet<u32> = HashSet::new(); 
   // build map of checksums to lists of files with that checksum
   let mut maybe_dups: Dups = HashMap::new();
-  for (size, mut files) in sizewise_dups.drain() { 
-    let amt_files = files.len();
+  for (_size, mut files) in sizewise_dups.drain() { 
     assert!(files.len() > 1);
-    for (n, file) in files.drain(..).enumerate() {
+    for file in files.drain(..) {
       print!("Calculating checksum {}/{}...\r", calculation_count, total);
-      std::io::stdout().flush();
+      std::io::stdout().flush().unwrap();
       calculation_count += 1;
       let fchecksum = calc_file_checksum(&(file.1[0]));
       if maybe_dups.contains_key(&fchecksum) {
@@ -335,16 +321,16 @@ fn filter_non_dups(options: &Options,
 
 fn fmt_linkedgroup(lg: LinkedGroup) -> String {
   let mut acc = String::new();
-  write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy());
+  write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy()).unwrap();
   if lg.1.len() > 1 {
-    write!(acc, " (aka ");
+    write!(acc, " (aka ").unwrap();
   }
   for idx in 1..(lg.1.len()-1) {
     let de = &lg.1[idx];
-    write!(acc, "{:?}, ", de.path().as_os_str().to_string_lossy());
+    write!(acc, "{:?}, ", de.path().as_os_str().to_string_lossy()).unwrap();
   }
   if lg.1.len() > 1 {
-    write!(acc, "{:?})", lg.1[lg.1.len()-1].path().as_os_str().to_string_lossy());
+    write!(acc, "{:?})", lg.1[lg.1.len()-1].path().as_os_str().to_string_lossy()).unwrap();
   }
   acc
 }
@@ -364,9 +350,9 @@ fn main() {
   let options = parse_args(env::args());
   println!("{:?}", options);
   let file_list = build_file_list(&options);
-  let sizewise_dups = find_sizewise_dups(&options, file_list); 
+  let sizewise_dups = find_sizewise_dups(file_list); 
   println!("Found {} groups of files with equal sizes. {} files total.", sizewise_dups.len(), sizewise_dups.values().flatten().count()); 
-  let dups = filter_non_dups(&options, sizewise_dups);
+  let dups = filter_non_dups(sizewise_dups);
   println!("Found {} duplicates.", dups.len());  
   print_dups(dups);
     
