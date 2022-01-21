@@ -6,6 +6,8 @@ use std::path::{PathBuf, Path};
 use std::fs;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::thread;
+
 use adler32::adler32;
 
 
@@ -275,6 +277,22 @@ fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
   adler32(fs::File::open(f.path()).unwrap()).unwrap()
 }
 
+fn calc_file_checksumst(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> { 
+  let mut paths: Vec<PathBuf> = fs.iter().map(|a| a.1[0].path().to_owned()).collect();
+  let mut ts: Vec<thread::JoinHandle<(usize, u32)>> = vec![]; 
+  for (idx, path) in paths.drain(..).enumerate() { 
+    ts.push(thread::spawn(move || {
+      let r = adler32(fs::File::open(path).unwrap()).unwrap();
+      (idx, r)
+    }));
+  }
+  let results: Vec<(usize, u32)> = ts.drain(..).map(|t| t.join().unwrap()).collect();
+  let mut removable: HashMap<usize, LinkedGroup> = HashMap::new();
+  fs.drain(..).enumerate().map(|(idx, lg)| removable.insert(idx, lg)).count(); 
+  let res: Vec<(u32, LinkedGroup)> = results.iter().map(|(idx, checksum)| (*checksum, removable.remove(idx).unwrap())).collect();
+  res
+}
+
 
 /*
    I'm using the term 'dup' to describe 2 or more files which
@@ -289,12 +307,30 @@ type Dups = HashMap<u32, Vec<LinkedGroup>>;
 fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups { 
   let mut calculation_count: usize = 0;
   let total = sizewise_dups.values().flatten().count();
+  let grps = sizewise_dups.len();
   // keep track of checksums for which 2 or more files have been found
   let mut dup_checksums: HashSet<u32> = HashSet::new(); 
   // build map of checksums to lists of files with that checksum
   let mut maybe_dups: Dups = HashMap::new();
-  for (_size, mut files) in sizewise_dups.drain() { 
+  for (grp, (size, mut files)) in sizewise_dups.drain().enumerate() { 
     assert!(files.len() > 1);
+    
+    // multithreaded approach
+    print!("(group {}/{}): calculating checksums of {} files with size {}...\r", grp, grps, files.len(), size);
+    std::io::stdout().flush().unwrap();  
+    calculation_count += files.len(); 
+    let mut cs = calc_file_checksumst(files);
+    for (checksum, fil) in cs.drain(..) {
+       if maybe_dups.contains_key(&checksum) {
+        maybe_dups.get_mut(&checksum).unwrap().push(fil);
+        dup_checksums.insert(checksum);
+      } else {
+        maybe_dups.insert(checksum, vec![fil]);
+      } 
+
+    }
+    /*
+    // singlethreaded approach 
     for file in files.drain(..) {
       print!("Calculating checksum {}/{}...\r", calculation_count, total);
       std::io::stdout().flush().unwrap();
@@ -306,9 +342,10 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
       } else {
         maybe_dups.insert(fchecksum, vec![file]);
       } 
-    } 
+    }
+    */
   }
-  println!("Calculated checksums of {} files.         ", calculation_count);
+  println!("Calculated checksums of {} files.                                      ", calculation_count);
   // collect all of the dups we found
   let mut res: Dups = HashMap::new();
   for dup_checksum in dup_checksums {
