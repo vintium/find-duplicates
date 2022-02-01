@@ -1,3 +1,4 @@
+use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::env;
@@ -152,10 +153,13 @@ fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
         /* ignore symlink directories */
     } else {
         let fi = get_file_identifier(&de.path());
-        if acc.contains_key(&fi) {
-            acc.get_mut(&fi).unwrap().push(de);
-        } else {
-            acc.insert(fi, vec![de]);
+        match acc.entry(fi) {
+            Entry::Occupied(mut e) => {
+                e.get_mut().push(de);
+            }
+            Entry::Vacant(e) => {
+                e.insert(vec![de]);
+            }
         }
         print!("Building file list... {} \r", acc.len());
     }
@@ -190,10 +194,13 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
             .filter(|a| !fs::metadata(a.path()).expect("failed to stat").is_dir())
             .map(|a| {
                 let fi = get_file_identifier(&a.path());
-                if acc.contains_key(&fi) {
-                    acc.get_mut(&fi).unwrap().push(a);
-                } else {
-                    acc.insert(fi, vec![a]);
+                match acc.entry(fi) {
+                    Entry::Occupied(mut e) => {
+                        e.get_mut().push(a);
+                    }
+                    Entry::Vacant(e) => {
+                        e.insert(vec![a]);
+                    }
                 }
             })
             .count(); /* use `count` to exhaust this
@@ -230,11 +237,14 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
         // it would be an error if there were directories in the file list
         assert!(!md.is_dir());
         let fsize = md.len();
-        if maybe_dups.contains_key(&fsize) {
-            maybe_dups.get_mut(&fsize).unwrap().push(de);
-            dup_sizes.insert(fsize);
-        } else {
-            maybe_dups.insert(fsize, vec![de]);
+        match maybe_dups.entry(fsize) {
+            Entry::Occupied(mut e) => {
+                e.get_mut().push(de);
+                dup_sizes.insert(fsize);
+            }
+            Entry::Vacant(e) => {
+                e.insert(vec![de]);
+            }
         }
     }
     println!("Size-checked {}/{} files.          ", amt_files, amt_files);
@@ -249,7 +259,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
 fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
     fs.par_drain(..)
         .map(|f| {
-            let p = f.1[0].path().to_owned();
+            let p = f.1[0].path();
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
             (adler32(bytes_of_file.as_slice()).unwrap(), f)
         })
@@ -268,13 +278,13 @@ type Dups = HashMap<u32, Vec<LinkedGroup>>;
 
 fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
     let mut calculation_count: usize = 0;
-    let total = sizewise_dups.values().flatten().count();
+    let _total = sizewise_dups.values().flatten().count();
     let grps = sizewise_dups.len();
     // keep track of checksums for which 2 or more files have been found
     let mut dup_checksums: HashSet<u32> = HashSet::new();
     // build map of checksums to lists of files with that checksum
     let mut maybe_dups: Dups = HashMap::new();
-    for (grp, (size, mut files)) in sizewise_dups.drain().enumerate() {
+    for (grp, (size, files)) in sizewise_dups.drain().enumerate() {
         assert!(files.len() > 1);
         print!(
             "(group {}/{}): calculating checksums of {} files with size {}...\r",
@@ -287,11 +297,14 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
         calculation_count += files.len();
         let mut cs = calc_file_checksumsr(files);
         for (checksum, fil) in cs.drain(..) {
-            if maybe_dups.contains_key(&checksum) {
-                maybe_dups.get_mut(&checksum).unwrap().push(fil);
-                dup_checksums.insert(checksum);
-            } else {
-                maybe_dups.insert(checksum, vec![fil]);
+            match maybe_dups.entry(checksum) {
+                Entry::Occupied(mut e) => {
+                    e.get_mut().push(fil);
+                    dup_checksums.insert(checksum);
+                }
+                Entry::Vacant(e) => {
+                    e.insert(vec![fil]);
+                }
             }
         }
     }
@@ -332,7 +345,7 @@ fn print_dups(ds: &Dups) {
     for d in ds {
         println!("files with checksum {}:", d.0);
         for lg in d.1 {
-            println!("  {}", fmt_linkedgroup(&lg));
+            println!("  {}", fmt_linkedgroup(lg));
         }
     }
 }
