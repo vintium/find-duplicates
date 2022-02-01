@@ -14,6 +14,7 @@ use futures::future::join_all;
 
 use tokio::runtime::{Runtime, Handle};
 
+use rayon::prelude::*;
 
 fn usage(pn: &str) {
    println!("USAGE: {} [flags] <input>", pn);
@@ -294,14 +295,24 @@ fn calc_file_checksumst(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
 }
 
 async fn calc_file_checksuma(f: LinkedGroup) -> (u32, LinkedGroup) {
-    let p = f.1[0].path().to_owned();
-    let bytes_of_file: Vec<u8> = tokio::fs::read(p).await.unwrap();
-    (adler32(bytes_of_file.as_slice()).unwrap(), f)
+    tokio::spawn(async move {
+        let p = f.1[0].path().to_owned();
+        let bytes_of_file: Vec<u8> = tokio::fs::read(p).await.unwrap();
+        (adler32(bytes_of_file.as_slice()).unwrap(), f)
+    }).await.unwrap()
 }
 
 fn calc_file_checksumsa(mut fs: Vec<LinkedGroup>, handle: &Handle) -> Vec<(u32, LinkedGroup)> {
    let futures = fs.drain(..).map(|f| calc_file_checksuma(f));
    handle.block_on(join_all(futures))
+}
+
+fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
+    fs.par_drain(..).map(|f| { 
+        let p = f.1[0].path().to_owned();
+        let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
+        (adler32(bytes_of_file.as_slice()).unwrap(), f)
+    }).collect() 
 }
 
 
@@ -349,8 +360,31 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
       }
       */
 
-      // async approach
+      // threadpool approach
       // /*
+      print!(
+         "(group {}/{}): calculating checksums of {} files with size {}...\r",
+         grp,
+         grps,
+         files.len(),
+         size
+      );
+      std::io::stdout().flush().unwrap();
+      calculation_count += files.len();
+      let mut cs = calc_file_checksumsr(files);
+      for (checksum, fil) in cs.drain(..) {
+         if maybe_dups.contains_key(&checksum) {
+            maybe_dups.get_mut(&checksum).unwrap().push(fil);
+            dup_checksums.insert(checksum);
+         } else {
+            maybe_dups.insert(checksum, vec![fil]);
+         }
+      }
+      // */
+
+
+      // async approach
+      /*
       print!(
          "(group {}/{}): calculating checksums of {} files with size {}...\r",
          grp,
@@ -369,7 +403,7 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
             maybe_dups.insert(checksum, vec![fil]);
          }
       }
-      // */
+      */
 
       /*
       // singlethreaded approach
