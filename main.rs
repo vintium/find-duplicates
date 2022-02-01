@@ -350,16 +350,24 @@ fn print_dups(ds: &Dups) {
     }
 }
 
+use std::time::Instant;
+
 fn main() {
     let options = parse_args(env::args());
+    let mut start = Instant::now();
     let file_list = build_file_list(&options);
+    println!("took: {:?}", start.elapsed());
+    start = Instant::now();
     let sizewise_dups = find_sizewise_dups(file_list);
     println!(
         "Found {} groups of files with equal sizes. {} files total.",
         sizewise_dups.len(),
         sizewise_dups.values().flatten().count()
     );
+    println!("took: {:?}", start.elapsed());
+    start = Instant::now();
     let dups = filter_non_dups(sizewise_dups);
     println!("Found {} duplicates.", dups.len());
-    print_dups(&dups);
+    // print_dups(&dups);
+    println!("took: {:?}", start.elapsed());
 }
