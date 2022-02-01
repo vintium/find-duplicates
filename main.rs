@@ -6,13 +6,8 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process;
-use std::thread;
 
 use adler32::adler32;
-
-use futures::future::join_all;
-
-use tokio::runtime::{Runtime, Handle};
 
 use rayon::prelude::*;
 
@@ -251,62 +246,6 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
    res
 }
 
-/*
-// Adler32 algorithm and implementation taken from here:
-// https://en.wikipedia.org/wiki/Adler-32#Example_implementation
-const MOD_ADLER: u32 = 65521;
-fn my_adler32(data: Vec<u8>) -> u32 {
-  let mut a: u32 = 1;
-  let mut b: u32 = 0;
-  for byte in data {
-    a = (a + (byte as u32)) % MOD_ADLER;
-    b = (b + a) % MOD_ADLER;
-  }
-
-  (b << 16) | a
-
-}
-*/
-
-fn calc_file_checksum(f: &fs::DirEntry) -> u32 {
-   adler32(fs::File::open(f.path()).unwrap()).unwrap()
-}
-
-fn calc_file_checksumst(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
-   let mut paths: Vec<PathBuf> = fs.iter().map(|a| a.1[0].path().to_owned()).collect();
-   let mut ts: Vec<thread::JoinHandle<(usize, u32)>> = vec![];
-   for (idx, path) in paths.drain(..).enumerate() {
-      ts.push(thread::spawn(move || {
-         let r = adler32(fs::File::open(path).unwrap()).unwrap();
-         (idx, r)
-      }));
-   }
-   let results: Vec<(usize, u32)> = ts.drain(..).map(|t| t.join().unwrap()).collect();
-   let mut removable: HashMap<usize, LinkedGroup> = HashMap::new();
-   fs.drain(..)
-      .enumerate()
-      .map(|(idx, lg)| removable.insert(idx, lg))
-      .count();
-   let res: Vec<(u32, LinkedGroup)> = results
-      .iter()
-      .map(|(idx, checksum)| (*checksum, removable.remove(idx).unwrap()))
-      .collect();
-   res
-}
-
-async fn calc_file_checksuma(f: LinkedGroup) -> (u32, LinkedGroup) {
-    tokio::spawn(async move {
-        let p = f.1[0].path().to_owned();
-        let bytes_of_file: Vec<u8> = tokio::fs::read(p).await.unwrap();
-        (adler32(bytes_of_file.as_slice()).unwrap(), f)
-    }).await.unwrap()
-}
-
-fn calc_file_checksumsa(mut fs: Vec<LinkedGroup>, handle: &Handle) -> Vec<(u32, LinkedGroup)> {
-   let futures = fs.drain(..).map(|f| calc_file_checksuma(f));
-   handle.block_on(join_all(futures))
-}
-
 fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
     fs.par_drain(..).map(|f| { 
         let p = f.1[0].path().to_owned();
@@ -314,7 +253,6 @@ fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
         (adler32(bytes_of_file.as_slice()).unwrap(), f)
     }).collect() 
 }
-
 
 /*
    I'm using the term 'dup' to describe 2 or more files which
@@ -334,34 +272,8 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
    let mut dup_checksums: HashSet<u32> = HashSet::new();
    // build map of checksums to lists of files with that checksum
    let mut maybe_dups: Dups = HashMap::new();
-   let rt = tokio::runtime::Runtime::new().unwrap();
    for (grp, (size, mut files)) in sizewise_dups.drain().enumerate() {
       assert!(files.len() > 1);
-
-      // multithreaded approach
-      /*
-      print!(
-         "(group {}/{}): calculating checksums of {} files with size {}...\r",
-         grp,
-         grps,
-         files.len(),
-         size
-      );
-      std::io::stdout().flush().unwrap();
-      calculation_count += files.len();
-      let mut cs = calc_file_checksumst(files);
-      for (checksum, fil) in cs.drain(..) {
-         if maybe_dups.contains_key(&checksum) {
-            maybe_dups.get_mut(&checksum).unwrap().push(fil);
-            dup_checksums.insert(checksum);
-         } else {
-            maybe_dups.insert(checksum, vec![fil]);
-         }
-      }
-      */
-
-      // threadpool approach
-      // /*
       print!(
          "(group {}/{}): calculating checksums of {} files with size {}...\r",
          grp,
@@ -380,46 +292,6 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
             maybe_dups.insert(checksum, vec![fil]);
          }
       }
-      // */
-
-
-      // async approach
-      /*
-      print!(
-         "(group {}/{}): calculating checksums of {} files with size {}...\r",
-         grp,
-         grps,
-         files.len(),
-         size
-      );
-      std::io::stdout().flush().unwrap();
-      calculation_count += files.len();
-      let mut cs = calc_file_checksumsa(files, rt.handle());
-      for (checksum, fil) in cs.drain(..) {
-         if maybe_dups.contains_key(&checksum) {
-            maybe_dups.get_mut(&checksum).unwrap().push(fil);
-            dup_checksums.insert(checksum);
-         } else {
-            maybe_dups.insert(checksum, vec![fil]);
-         }
-      }
-      */
-
-      /*
-      // singlethreaded approach
-      for file in files.drain(..) {
-        print!("Calculating checksum {}/{}...\r", calculation_count, total);
-        std::io::stdout().flush().unwrap();
-        calculation_count += 1;
-        let fchecksum = calc_file_checksum(&(file.1[0]));
-        if maybe_dups.contains_key(&fchecksum) {
-          maybe_dups.get_mut(&fchecksum).unwrap().push(file);
-          dup_checksums.insert(fchecksum);
-        } else {
-          maybe_dups.insert(fchecksum, vec![file]);
-        }
-      }
-      */
    }
    println!(
       "Calculated checksums of {} files.                                      ",
