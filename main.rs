@@ -165,53 +165,87 @@ fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
     }
 }
 
+#[derive(Debug)]
+struct RecReadDir {
+    dirs: Vec<PathBuf>,
+    current: fs::ReadDir,
+}
+
+impl Iterator for RecReadDir {
+    type Item = std::io::Result<fs::DirEntry>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        // println!("{:?}", self);
+        if let Some(dir_entry) = self.current.next() {
+            if let Ok(ref de) = dir_entry {
+                // println!("{:?}", de);
+                if de.file_type().expect("couldn't get file type").is_dir() {
+                    self.dirs.push(de.path().to_owned());
+                }
+            }
+            Some(dir_entry)
+        } else {
+            while let Some(path) = self.dirs.pop() {
+                if let Ok(read_dir) = fs::read_dir(path) {
+                    self.current = read_dir;
+                    return self.next();
+                }
+            }
+            None
+        }
+    }
+}
+
+fn collect_into_entries_by_identifiers<I>(acc: &mut EntriesByIdentifiers, read_dir_iterator: I)
+where
+    I: Iterator<Item = std::io::Result<fs::DirEntry>>,
+{
+    let _ = read_dir_iterator
+        .enumerate()
+        .map(|(i, a)| {
+            print!("Building file list... {}\r", i);
+            a
+        })
+        .filter(|a| a.is_ok())
+        .map(|a| a.unwrap())
+        .filter(|a| !fs::metadata(a.path()).expect("failed to stat").is_dir())
+        .map(|a| {
+            let fi = get_file_identifier(&a.path());
+            match acc.entry(fi) {
+                Entry::Occupied(mut e) => {
+                    e.get_mut().push(a);
+                }
+                Entry::Vacant(e) => {
+                    e.insert(vec![a]);
+                }
+            }
+        })
+        .count(); /* use `count` to exhaust this
+                  iterator and run each iteration */
+}
+
 fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
     if !options.quiet {
         print!("Building file list... \r");
     }
 
+    let mut acc = EntriesByIdentifiers::new();
     if options.recursive {
-        let mut acc = EntriesByIdentifiers::new();
-        for md in options.target_dir.read_dir().expect("read_dir call failed") {
-            rec_read_dir(md.expect("failed to stat"), &mut acc);
-        }
-        if !options.quiet {
-            println!("\nFound {} files.", acc.len());
-        }
-        acc.drain().collect()
+        let read_dir_iterator = RecReadDir {
+            dirs: vec![],
+            current: options.target_dir.read_dir().expect("read_dir call failed"),
+        };
+        collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
     } else {
-        let mut acc = EntriesByIdentifiers::new();
-
-        let _ = options
-            .target_dir
-            .read_dir()
-            .expect("read_dir call failed")
-            .enumerate()
-            .map(|(i, a)| {
-                print!("Building file list... {}\r", i);
-                a.expect("failed to stat")
-            })
-            .filter(|a| !fs::metadata(a.path()).expect("failed to stat").is_dir())
-            .map(|a| {
-                let fi = get_file_identifier(&a.path());
-                match acc.entry(fi) {
-                    Entry::Occupied(mut e) => {
-                        e.get_mut().push(a);
-                    }
-                    Entry::Vacant(e) => {
-                        e.insert(vec![a]);
-                    }
-                }
-            })
-            .count(); /* use `count` to exhaust this
-                      iterator and run each iteration */
-        let res: Vec<LinkedGroup> = acc.drain().collect();
-        println!("Building file list... {}", res.len());
-        if !options.quiet {
-            println!("Found {} files.", res.len());
-        }
-        res
+        let read_dir_iterator = options.target_dir.read_dir().expect("read_dir call failed");
+        collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
     }
+    let res: Vec<LinkedGroup> = acc.drain().collect();
+    println!("Building file list... {}", res.len());
+    if !options.quiet {
+        println!("Found {} files.", res.len());
+    }
+    res
 }
 
 /*
