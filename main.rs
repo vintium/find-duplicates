@@ -132,38 +132,6 @@ type LinkedGroup = (
     Vec<fs::DirEntry>, /* files linked to the identifier */
 );
 
-fn is_symlink_to_dir(de: &fs::DirEntry) -> std::io::Result<bool> {
-    Ok(de.metadata()?.is_symlink() && fs::metadata(de.path())?.is_dir())
-}
-
-// TODO: Make this more idiomatic, use iterators the whole way thru
-fn rec_read_dir(de: fs::DirEntry, acc: &mut EntriesByIdentifiers) {
-    if de.metadata().expect("failed to stat").is_dir() {
-        match de.path().read_dir() {
-            Ok(rd) => {
-                for md in rd {
-                    rec_read_dir(md.expect("failed to stat"), acc);
-                }
-            }
-            Err(e) => {
-                eprintln!("Error: could not read directory {:?}: {}", de.path(), e);
-            }
-        }
-    } else if is_symlink_to_dir(&de).expect("failed to stat") {
-        /* ignore symlink directories */
-    } else {
-        let fi = get_file_identifier(&de.path());
-        match acc.entry(fi) {
-            Entry::Occupied(mut e) => {
-                e.get_mut().push(de);
-            }
-            Entry::Vacant(e) => {
-                e.insert(vec![de]);
-            }
-        }
-        print!("Building file list... {} \r", acc.len());
-    }
-}
 
 #[derive(Debug)]
 struct RecReadDir {
@@ -180,7 +148,7 @@ impl Iterator for RecReadDir {
             if let Ok(ref de) = dir_entry {
                 // println!("{:?}", de);
                 if de.file_type().expect("couldn't get file type").is_dir() {
-                    self.dirs.push(de.path().to_owned());
+                    self.dirs.push(de.path());
                 }
             }
             Some(dir_entry)
