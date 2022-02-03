@@ -101,27 +101,29 @@ fn parse_args(mut args: env::Args) -> Options {
 }
 
 /*
-  I'm using 'file identifier' to mean a number that is shared across (hard  or
+  TERM: I'm using 'file identifier' to mean a number that is shared across (hard  or
   soft) linked files.
 */
 
-// on unix, we can use the inode number as a file identifier.
 #[cfg(unix)]
 fn get_file_identifier(fp: &Path) -> u64 {
+    /* on unix, we can use the inode number as a file identifier. */
+    use std::os::unix::fs::MetadataExt;
     /* NOTE: this function expects the path passed in to
     have been pre-verified to exist. */
-    use std::os::unix::fs::MetadataExt;
     let md = fs::metadata(fp).unwrap();
     md.ino()
 }
 
-// on windows, we can use the nFileIndex{Low,High} as a file identifier.
+
 #[cfg(windows)]
 fn get_file_identifier(fp: &Path) -> u64 {
+    /* on windows, we can use the nFileIndex{Low,High} as a file identifier. */
+    use std::os::windows::fs::MetadataExt;
+    compile_error!(concat!("get_file_identifier has not been tested on windows",
+        " and must be tested before compilation for windows is safe."));
     /* NOTE: this function expects the path passed in to
     have been pre-verified to exist. */
-    use std::os::windows::fs::MetadataExt;
-    todo!("This function is untested! also, it needs nightly!");
     let md = fs::metadata(fp).unwrap();
     md.file_index().unwrap()
 }
@@ -139,14 +141,29 @@ struct RecReadDir {
     current: fs::ReadDir,
 }
 
+impl RecReadDir {
+    fn new(start: &Path) -> std::io::Result<RecReadDir> { 
+        Ok(RecReadDir {
+            dirs: vec![],
+            current: start.read_dir()?,
+        })
+    }
+}
+
 impl Iterator for RecReadDir {
     type Item = std::io::Result<fs::DirEntry>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // println!("{:?}", self);
+        /*
+            An std::fs::ReadDir iterates over the entries in a directory.
+            In this iterator, a stack of directories (self.dirs) is maintained
+            and items are yeilded from std::fs::ReadDir iterators over
+            these directories in-turn until the stack is exhausted. When
+            directories are found, they are added to the stack. This results in
+            a recursive traversal.
+        */
         if let Some(dir_entry) = self.current.next() {
             if let Ok(ref de) = dir_entry {
-                // println!("{:?}", de);
                 if de.file_type().expect("couldn't get file type").is_dir() {
                     self.dirs.push(de.path());
                 }
@@ -199,10 +216,7 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
 
     let mut acc = EntriesByIdentifiers::new();
     if options.recursive {
-        let read_dir_iterator = RecReadDir {
-            dirs: vec![],
-            current: options.target_dir.read_dir().expect("read_dir call failed"),
-        };
+        let read_dir_iterator = RecReadDir::new(&options.target_dir).expect("read_dir call failed");
         collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
     } else {
         let read_dir_iterator = options.target_dir.read_dir().expect("read_dir call failed");
