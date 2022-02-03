@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::env;
 use std::fmt::Write as OtherWrite;
+use std::fmt;
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -129,10 +130,33 @@ fn get_file_identifier(fp: &Path) -> u64 {
 }
 
 type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
-type LinkedGroup = (
-    u64,               /* file identifier */
-    Vec<fs::DirEntry>, /* files linked to the identifier */
-);
+struct LinkedGroup {
+    id:    u64,               /* file identifier */
+    files: Vec<fs::DirEntry>, /* files linked to the identifier */
+}
+
+impl fmt::Display for LinkedGroup {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self.files[0].path().as_os_str().to_string_lossy())?;
+        if self.files.len() > 1 {
+            write!(f, " (aka ")?;
+        }
+        for idx in 1..(self.files.len() - 1) {
+            let de = &self.files[idx];
+            write!(f, "{:?}, ", de.path().as_os_str().to_string_lossy())?;
+        }
+        if self.files.len() > 1 {
+            write!(
+                f,
+                "{:?})",
+                self.files[self.files.len() - 1].path().as_os_str().to_string_lossy()
+            )?;
+        }
+        Ok(())
+    }
+}
+
+
 
 
 #[derive(Debug)]
@@ -222,8 +246,8 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
         let read_dir_iterator = options.target_dir.read_dir().expect("read_dir call failed");
         collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
     }
-    let res: Vec<LinkedGroup> = acc.drain().collect();
-    println!("Building file list... {}", res.len());
+    let res: Vec<LinkedGroup> = acc.drain().map(|(id, files)| LinkedGroup {id, files}).collect();
+    println!("Building file list... {}      ", res.len());
     if !options.quiet {
         println!("Found {} files.", res.len());
     }
@@ -249,7 +273,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
     let mut maybe_dups: SizewiseDups = HashMap::new();
     for (n, de) in files.drain(..).enumerate() {
         print!("Size-checking {}/{} files...\r", n, amt_files);
-        let md = de.1[0].metadata().expect("failed to stat");
+        let md = de.files[0].metadata().expect("failed to stat");
         // it would be an error if there were directories in the file list
         assert!(!md.is_dir());
         let fsize = md.len();
@@ -275,7 +299,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
 fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
     fs.par_drain(..)
         .map(|f| {
-            let p = f.1[0].path();
+            let p = f.files[0].path();
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
             (adler32(bytes_of_file.as_slice()).unwrap(), f)
         })
@@ -336,32 +360,11 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
     res
 }
 
-fn fmt_linkedgroup(lg: &LinkedGroup) -> String {
-    let mut acc = String::new();
-    write!(acc, "{:?}", lg.1[0].path().as_os_str().to_string_lossy()).unwrap();
-    if lg.1.len() > 1 {
-        write!(acc, " (aka ").unwrap();
-    }
-    for idx in 1..(lg.1.len() - 1) {
-        let de = &lg.1[idx];
-        write!(acc, "{:?}, ", de.path().as_os_str().to_string_lossy()).unwrap();
-    }
-    if lg.1.len() > 1 {
-        write!(
-            acc,
-            "{:?})",
-            lg.1[lg.1.len() - 1].path().as_os_str().to_string_lossy()
-        )
-        .unwrap();
-    }
-    acc
-}
-
 fn print_dups(ds: &Dups) {
     for d in ds {
         println!("files with checksum {}:", d.0);
         for lg in d.1 {
-            println!("  {}", fmt_linkedgroup(lg));
+            println!("  {}", lg);
         }
     }
 }
