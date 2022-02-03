@@ -370,6 +370,6 @@ fn main() {
     start = Instant::now();
     let dups = filter_non_dups(sizewise_dups);
     println!("Found {} duplicates.", dups.len());
-    // print_dups(&dups);
+    if dups.len() < 25 { print_dups(&dups); }
     println!("took: {:?}", start.elapsed());
 }
