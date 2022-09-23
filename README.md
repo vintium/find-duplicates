@@ -1,5 +1,5 @@
 # find-duplicates
-A decenly fast tool to find duplicate files. Handles symbolic and hard links and treats them seperately to duplicates.
+A decenly fast tool to find duplicate files. Handles symbolic and hard links and treats them separately to duplicates.
 
 
 # Quickstart
@@ -9,7 +9,7 @@ $ cargo build --release
 ```
 *NOTE: it's important to use `--release` mode, because it will be noticably slower without optimizations.*
 
-use the program to find some duplicates:
+Use the program to find some duplicates:
 ```console
 $ ./target/release/find-duplicates -r ~/some-dir-with-maybe-duplicate-files
 ```
