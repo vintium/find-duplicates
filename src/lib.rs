@@ -1,1 +1,1 @@
-mod recursive_dir_reader;
+pub mod recursive_dir_reader;
