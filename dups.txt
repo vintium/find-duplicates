@@ -1,0 +1,789 @@
+Found 847 files.
+took: 146.4734ms
+Found 259 groups of files with equal sizes. 532 files total.
+took: 717.8µs
+Found 257 duplicates.
+files with checksum 1273751144:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\01 Evil Star (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\01 Evil Star (Live in Paris '19).mp3"
+files with checksum 498856528:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\01 Sense.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\01 Sense.mp3"
+files with checksum 4004002816:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0018 [2021-04-03 205029].wav"
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0018 [2021-04-03 205029].wav"
+files with checksum 2410029968:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Desktop.ini"
+  "E:/music\\_projects\\Chug Paradise Project\\Desktop.ini"
+files with checksum 2362158148:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\05 Inner Cell.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\05 Inner Cell.mp3"
+files with checksum 2552419831:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\17 Honey (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\17 Honey (Live In Melbourne '21).mp3"
+files with checksum 3069570808:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\16 Sleep Drifter (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\16 Sleep Drifter (Live In Melbourne '21).wav"
+files with checksum 3215775575:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\04 Crumbling Castle (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\04 Crumbling Castle (Live in Paris '19).wav"
+files with checksum 1314141083:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\08 N.G.R.I. (Bloodstain).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\08 N.G.R.I. (Bloodstain).mp3"
+files with checksum 1867508484:
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\03 God Is In The Rhythm.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\03 God Is In The Rhythm.wav"
+files with checksum 1121345839:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\03 Nuclear Fusion (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\03 Nuclear Fusion (Live In Sydney _21).wav"
+files with checksum 1070058144:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\05 Cyboogie (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\05 Cyboogie (Live in Adelaide '19).wav"
+files with checksum 2823070291:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\07 Rattlesnake (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\07 Rattlesnake (Live In Melbourne '21).mp3"
+files with checksum 1591223403:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\16 Organ Farmer (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\16 Organ Farmer (Live in Adelaide '19).mp3"
+files with checksum 2423948845:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\12 Straws In the Wind (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\12 Straws In the Wind (Live In Melbourne '21).wav"
+files with checksum 1598430854:
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\08 Wah Wah.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\08 Wah Wah.mp3"
+files with checksum 1855310654:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\02 Polygondwanaland.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\02 Polygondwanaland.mp3"
+files with checksum 937459367:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\14 Nuclear Fusion (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\14 Nuclear Fusion (Live in Paris '19).wav"
+files with checksum 4073124045:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\04 Venusian 1 (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\04 Venusian 1 (Live in Adelaide '19).mp3"
+files with checksum 4048370582:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0015 [2021-04-03 204740].wav"
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0015 [2021-04-03 204740].wav"
+files with checksum 614165484:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\06 Ontology (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\06 Ontology (Live In Melbourne '21).wav"
+files with checksum 4229962024:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\4 Deserted Dunes Welcome Weary Feet.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\4 Deserted Dunes Welcome Weary Feet.wav"
+files with checksum 3095495360:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\01 Crumbling Castle (Live on KEXP '18).mkv"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\01 Crumbling Castle (Live on KEXP '18).mkv"
+files with checksum 1788794266:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\16 K.G.L.W. (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\16 K.G.L.W. (Live In Sydney _21).mp3"
+files with checksum 1010521521:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\09 Road Train.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\09 Road Train.mp3"
+files with checksum 3415749356:
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\02 Bone.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\02 Bone.mp3"
+files with checksum 3032418978:
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\02 Big Fig Wasp.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\02 Big Fig Wasp.mp3"
+files with checksum 2163085884:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\16 Sleep Drifter (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\16 Sleep Drifter (Live In Melbourne '21).mp3"
+files with checksum 2081877803:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\01 Fury (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\01 Fury (Live In Melbourne '21).mp3"
+files with checksum 3940882707:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\02 Greenhouse Heat Death.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\02 Greenhouse Heat Death.mp3"
+files with checksum 2756736168:
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\04 Lonely Steel Sheet Flyer.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\04 Lonely Steel Sheet Flyer.wav"
+files with checksum 1357881869:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\15 Minimum Brain Size (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\15 Minimum Brain Size (Live In Melbourne '21).wav"
+files with checksum 2958347086:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\02 Planet B (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\02 Planet B (Live in Adelaide '19).wav"
+files with checksum 2479022937:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\01 Evil Star (Live in Adelaide '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\01 Evil Star (Live in Adelaide '19).mp3"
+files with checksum 2512588360:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\10 Automation (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\10 Automation (Live In Sydney _21).wav"
+files with checksum 3001878599:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\Paper Mâché Dream Balloon - Cover Art.jpg"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\Paper Mâché Dream Balloon - Cover Art.jpg"
+files with checksum 2651654191:
+  "E:/music\\_projects\\Chug Paradise Project\\Ableton Project Info\\AProject.ico"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Ableton Project Info\\AProject.ico"
+files with checksum 1929900643:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\07 Hot Water (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\07 Hot Water (Live in Adelaide '19).wav"
+files with checksum 1584271855:
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Processed\\Consolidate\\4-Audio 3 [2021-04-03 203827].wav.asd"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Processed\\Consolidate\\4-Audio 3 [2021-04-03 203827].wav.asd"
+files with checksum 3274276609:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\Credits_Liner Notes .txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\Credits_Liner Notes .txt"
+files with checksum 3598554912:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\07 The Great Chain of Being.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\07 The Great Chain of Being.mp3"
+files with checksum 498828330:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\11 Pleura (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\11 Pleura (Live In Melbourne '21).mp3"
+files with checksum 2939104635:
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\05 Trapdoor.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\05 Trapdoor.mp3"
+files with checksum 4193474853:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\11 Hot Water (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\11 Hot Water (Live in Paris '19).wav"
+files with checksum 4222831809:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\02 The Fourth Colour (Live on KEXP '18).mkv"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\02 The Fourth Colour (Live on KEXP '18).mkv"
+files with checksum 1020986256:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\10 All Is Known (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\10 All Is Known (Live In Melbourne '21).wav"
+files with checksum 4080711430:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\01 Evil Star (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\01 Evil Star (Live in Adelaide '19).wav"
+files with checksum 2184839066:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\13 Loyalty (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\13 Loyalty (Live in Adelaide '19).mp3"
+files with checksum 3096668451:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\README.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\README.txt"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\README.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\README.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\README.txt"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\README.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\README.txt"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\README.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\README.txt"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\README.txt"
+files with checksum 880948977:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\04 Crumbling Castle (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\04 Crumbling Castle (Live in Paris '19).mp3"
+files with checksum 1737048449:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\09 The Book (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\09 The Book (Live In Sydney _21).wav"
+files with checksum 3497506972:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\06 Anoxia (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\06 Anoxia (Live In Sydney _21).wav"
+files with checksum 3607225271:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\10 The Fourth Colour.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\10 The Fourth Colour.wav"
+files with checksum 1235757501:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\8 Tetrachromacy.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\8 Tetrachromacy.wav"
+files with checksum 2131956790:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\06 Deserted Dunes Welcome Weary Feet (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\06 Deserted Dunes Welcome Weary Feet (Live in Paris '19).wav"
+files with checksum 3044503333:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\12 Inner Cell (Live in Adelaide '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\12 Inner Cell (Live in Adelaide '19).mp3"
+files with checksum 2114680101:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\01 Doom City (Live on KEXP Apr '17).webm"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\01 Doom City (Live on KEXP Apr '17).webm"
+files with checksum 3140282215:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\13 Billabong Valley (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\13 Billabong Valley (Live In Melbourne '21).wav"
+files with checksum 3262774695:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\Lyrics.txt"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\Lyrics.txt"
+files with checksum 820535536:
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\01 The River.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\01 The River.mp3"
+files with checksum 3578043438:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\06 Down The Sink.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\06 Down The Sink.mp3"
+files with checksum 1243049006:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\13 Billabong Valley (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\13 Billabong Valley (Live in Paris '19).mp3"
+files with checksum 2618486577:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\13 Billabong Valley (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\13 Billabong Valley (Live In Melbourne '21).mp3"
+files with checksum 3166775283:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\02 K.G.L.W. (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\02 K.G.L.W. (Live In Melbourne '21).mp3"
+files with checksum 2287390683:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\polygondwanaland-hi_res.jpg"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\polygondwanaland-hi_res.jpg"
+files with checksum 3300138319:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\12 This Thing (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\12 This Thing (Live in Paris '19).wav"
+files with checksum 2274007634:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\06 Loyalty.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\06 Loyalty.mp3"
+files with checksum 2741657113:
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\02 Boogieman Sam.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\02 Boogieman Sam.mp3"
+files with checksum 777499235:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\01 Evil Star (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\01 Evil Star (Live in Paris '19).wav"
+files with checksum 731246663:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\06 Anoxia (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\06 Anoxia (Live In Sydney _21).mp3"
+files with checksum 959063284:
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\03 Gamma Knife.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\03 Gamma Knife.mp3"
+files with checksum 3123046251:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\15 Plastic Boogie (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\15 Plastic Boogie (Live in Adelaide '19).mp3"
+files with checksum 461031972:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\09 All Is Known.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\09 All Is Known.mp3"
+files with checksum 3878316908:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\07 The Castle In The Air (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\07 The Castle In The Air (Live in Paris '19).mp3"
+files with checksum 1822703701:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\15 Anoxia (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\15 Anoxia (Live in Paris '19).mp3"
+files with checksum 1441748259:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\01 Fishing For Fishies.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\01 Fishing For Fishies.mp3"
+files with checksum 1199496699:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\08 Straws In The Wind (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\08 Straws In The Wind (Live In Sydney _21).wav"
+files with checksum 116568795:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\Paris - Vinyl cover.jpg"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\Paris - Vinyl cover.jpg"
+files with checksum 1965680660:
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\04 Muddy Water.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\04 Muddy Water.mp3"
+files with checksum 1244457462:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\10 All Is Known (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\10 All Is Known (Live In Melbourne '21).mp3"
+files with checksum 1319381363:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\07 The Castle In The Air (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\07 The Castle In The Air (Live in Paris '19).wav"
+files with checksum 476671987:
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0006 [2021-04-03 203422].wav.asd"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0006 [2021-04-03 203422].wav.asd"
+files with checksum 4120369487:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\18 Mars For The Rich (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\18 Mars For The Rich (Live in Paris '19).wav"
+files with checksum 1239634926:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\12 This Thing (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\12 This Thing (Live in Paris '19).mp3"
+files with checksum 1560911245:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\12 Some Of Us (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\12 Some Of Us (Live In Sydney _21).wav"
+files with checksum 1:
+  "E:/music\\_projects\\Chug Paradise Project\\man.mp3"
+  "E:/music\\_projects\\Chug Paradise Project\\school.ogg"
+  "E:/music\\_projects\\Chug Paradise Project\\man i.ogg"
+files with checksum 3591310712:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0018 [2021-04-03 205029].wav.asd"
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0018 [2021-04-03 205029].wav.asd"
+files with checksum 471706724:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\12 Straws In the Wind (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\12 Straws In the Wind (Live In Melbourne '21).mp3"
+files with checksum 1740250627:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\14 Automation (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\14 Automation (Live In Melbourne '21).mp3"
+files with checksum 425377275:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\04 Doom City (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\04 Doom City (Live In Melbourne '21).wav"
+files with checksum 2020533628:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\15 Plastic Boogie (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\15 Plastic Boogie (Live in Adelaide '19).wav"
+files with checksum 1665801814:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\Adelaide - Vinyl cover.jpg"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\Adelaide - Vinyl cover.jpg"
+files with checksum 3959455755:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\02 Oddlife (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\02 Oddlife (Live In Sydney _21).wav"
+files with checksum 4181607066:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\01 If Not Now, Then When_ (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\01 If Not Now, Then When_ (Live In Sydney _21).mp3"
+files with checksum 926614316:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\09 People-Vultures (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\09 People-Vultures (Live in Paris '19).wav"
+files with checksum 3656996589:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\3 The Castle In The Air.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\3 The Castle In The Air.wav"
+files with checksum 2573614631:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\06 The Wheel (Live on KEXP '18).webm"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\06 The Wheel (Live on KEXP '18).webm"
+files with checksum 3877613543:
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\03 God Is in the Rhythm.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\03 God Is in the Rhythm.mp3"
+files with checksum 225441734:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\07 The Bitter Boogie.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\07 The Bitter Boogie.mp3"
+files with checksum 4062075300:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\09 People-Vultures (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\09 People-Vultures (Live in Paris '19).mp3"
+files with checksum 559155347:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\04 Ataraxia (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\04 Ataraxia (Live In Sydney _21).mp3"
+files with checksum 576844672:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\Nonagon Infinity - Cover Art.jpg"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\Nonagon Infinity - Cover Art.jpg"
+files with checksum 2114095904:
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\10 Time = $$$.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\10 Time = $$$.mp3"
+files with checksum 2808272086:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\11 Pleura (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\11 Pleura (Live In Melbourne '21).wav"
+files with checksum 4128767758:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\09 The Book (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\09 The Book (Live In Sydney _21).mp3"
+files with checksum 580366101:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\05 Open Water (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\05 Open Water (Live In Sydney _21).wav"
+files with checksum 3157549342:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\08 East West Link (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\08 East West Link (Live In Melbourne '21).mp3"
+files with checksum 2407152160:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\02 Oddlife (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\02 Oddlife (Live In Sydney _21).mp3"
+files with checksum 2108177896:
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Processed\\Consolidate\\4-Audio 3 [2021-04-03 203827].wav"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Processed\\Consolidate\\4-Audio 3 [2021-04-03 203827].wav"
+files with checksum 3963253204:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\12 Inner Cell (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\12 Inner Cell (Live in Adelaide '19).wav"
+files with checksum 16660379:
+  "D:/music\\King Gizzard & The Lizard Wizard\\timeland-speculation\\.git\\logs\\HEAD"
+  "D:/music\\King Gizzard & The Lizard Wizard\\timeland-speculation\\.git\\logs\\refs\\heads\\main"
+  "D:/music\\King Gizzard & The Lizard Wizard\\timeland-speculation\\.git\\logs\\refs\\remotes\\origin\\HEAD"
+files with checksum 3808208395:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\06 Evil Death Roll.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\06 Evil Death Roll.mp3"
+files with checksum 977331382:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\18 Head On Pill (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\18 Head On Pill (Live in Adelaide '19).wav"
+files with checksum 318740748:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\07 Rattlesnake (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\07 Rattlesnake (Live In Melbourne '21).wav"
+files with checksum 905945251:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\18 K.G.L.W. (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\18 K.G.L.W. (Live In Melbourne '21).mp3"
+files with checksum 678731065:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\18 Mars For The Rich (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\18 Mars For The Rich (Live in Paris '19).mp3"
+files with checksum 2564336792:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Venusian 2 (Live on KEXP)-wQ8wNu0izYc.mp4"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Venusian 2 (Live on KEXP)-wQ8wNu0izYc.mp4"
+files with checksum 2668839492:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Perihelion (Live on KEXP)-8PWrmqsL0F4.mp4"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Perihelion (Live on KEXP)-8PWrmqsL0F4.mp4"
+files with checksum 3275136112:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\07 Melting (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\07 Melting (Live In Sydney _21).wav"
+files with checksum 188271962:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\04 Venusian 1 (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\04 Venusian 1 (Live in Adelaide '19).wav"
+files with checksum 411605192:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\08 Open Water (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\08 Open Water (Live in Adelaide '19).mp3"
+files with checksum 4112147376:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\11 The Bird Song (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\11 The Bird Song (Live in Adelaide '19).mp3"
+files with checksum 1210728085:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\01 Crumbling Castle.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\01 Crumbling Castle.mp3"
+files with checksum 3010649903:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\16 K.G.L.W. (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\16 K.G.L.W. (Live In Sydney _21).wav"
+files with checksum 2559428327:
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\02 Infinite Rise.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\02 Infinite Rise.wav"
+files with checksum 3931052448:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\10 The Fourth Colour.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\10 The Fourth Colour.mp3"
+files with checksum 3218855022:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\17 Boogieman Sam (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\17 Boogieman Sam (Live in Paris '19).mp3"
+files with checksum 2125156767:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\11 The Bird Song (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\11 The Bird Song (Live in Adelaide '19).wav"
+files with checksum 3364085626:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\05 O.N.E. (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\05 O.N.E. (Live In Melbourne '21).mp3"
+files with checksum 31145075:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\02 K.G.L.W. (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\02 K.G.L.W. (Live In Melbourne '21).wav"
+files with checksum 3164732003:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Mars For The Rich (Live on KEXP)-i9qWYUH5x3k.mp4"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Mars For The Rich (Live on KEXP)-i9qWYUH5x3k.mp4"
+files with checksum 899824724:
+  "D:/music\\Macroblank\\cover.png"
+  "D:/music\\Macroblank\\Macroblank - ラストチャンス\\cover.png"
+files with checksum 1319194043:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\05 The Fourth Color (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\05 The Fourth Color (Live in Paris '19).wav"
+files with checksum 2227409391:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\18 Head On Pill (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\18 Head On Pill (Live in Adelaide '19).mp3"
+files with checksum 3414773275:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\09 Cyboogie.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\09 Cyboogie.mp3"
+files with checksum 4165232037:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\03 Billabong Valley (Live on KEXP Apr '17).mkv"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\03 Billabong Valley (Live on KEXP Apr '17).mkv"
+files with checksum 1342640337:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\5 Inner Cell.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\5 Inner Cell.wav"
+files with checksum 3331929732:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\06 Deserted Dunes Welcome Weary Feet (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\06 Deserted Dunes Welcome Weary Feet (Live in Paris '19).mp3"
+files with checksum 499668563:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\6 Loyalty.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\6 Loyalty.wav"
+files with checksum 3291214418:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\08 Straws In The Wind (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\08 Straws In The Wind (Live In Sydney _21).mp3"
+files with checksum 1993641800:
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\04 Lonely Steel Sheet Flyer.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\04 Lonely Steel Sheet Flyer.mp3"
+files with checksum 2874899614:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\10 Mr. Beat (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\10 Mr. Beat (Live in Paris '19).wav"
+files with checksum 204669237:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\02 Venusian 2 (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\02 Venusian 2 (Live in Paris '19).mp3"
+files with checksum 1117075772:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\01 If Not Now, Then When_ (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\01 If Not Now, Then When_ (Live In Sydney _21).wav"
+files with checksum 2419028476:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\19 Am I In Heaven (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\19 Am I In Heaven (Live in Paris '19).wav"
+files with checksum 3831150799:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\Bootleg logo.png"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\Bootleg logo.png"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\Bootleg logo.png"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\Bootleg logo.png"
+files with checksum 3682254127:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\05 Open Water (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\05 Open Water (Live In Sydney _21).mp3"
+files with checksum 1678993898:
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\05 Superposition.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\05 Superposition.mp3"
+files with checksum 3201272418:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\09 Sleep Drifter (Live in Adelaide '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\09 Sleep Drifter (Live in Adelaide '19).mp3"
+files with checksum 588676897:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\11 Hot Water (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\11 Hot Water (Live in Paris '19).mp3"
+files with checksum 4078598905:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'15\\01 The River (Live on KEXP '15).mkv"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'15\\01 The River (Live on KEXP '15).mkv"
+files with checksum 3062094774:
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\08 Acarine.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\08 Acarine.mp3"
+files with checksum 3247835840:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\09 Time = Fate.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\09 Time = Fate.mp3"
+files with checksum 3530535378:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\1 Crumbling Castle.wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\1 Crumbling Castle.wav"
+files with checksum 2015191513:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\09 Static Electricity (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\09 Static Electricity (Live In Melbourne '21).wav"
+files with checksum 3498921343:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\03 Perihelion (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\03 Perihelion (Live in Paris '19).mp3"
+files with checksum 2086335952:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\06 Real's Not Real (Live in Adelaide '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\06 Real's Not Real (Live in Adelaide '19).mp3"
+files with checksum 3859537198:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\03 The Castle In The Air.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\03 The Castle In The Air.mp3"
+files with checksum 520572427:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\07 Melting (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\07 Melting (Live In Sydney _21).mp3"
+files with checksum 1212646538:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\07 Invisible Face.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\07 Invisible Face.mp3"
+files with checksum 1449167469:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\08 Open Water (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\08 Open Water (Live in Adelaide '19).wav"
+files with checksum 1483672161:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\17 Self-Immolate (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\17 Self-Immolate (Live in Adelaide '19).wav"
+files with checksum 3382742798:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\03 Nuclear Fusion (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\03 Nuclear Fusion (Live In Sydney _21).mp3"
+files with checksum 671677604:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\04 The Castle in the Air (Live on KEXP '18).mp4"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\04 The Castle in the Air (Live on KEXP '18).mp4"
+files with checksum 2550208186:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\07 Horology.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\07 Horology.mp3"
+files with checksum 1789113974:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\03 The Bird Song.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\03 The Bird Song.mp3"
+files with checksum 3457086503:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\02 Planet B (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\02 Planet B (Live in Adelaide '19).mp3"
+files with checksum 2244398599:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\05 The Cruel Millennial.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\05 The Cruel Millennial.mp3"
+files with checksum 2929621255:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\19 Am I In Heaven (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\19 Am I In Heaven (Live in Paris '19).mp3"
+files with checksum 4014606347:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\15 The Hungry Wolf Of Fate (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\15 The Hungry Wolf Of Fate (Live In Sydney _21).wav"
+files with checksum 1934352451:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\12 Some Of Us (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\12 Some Of Us (Live In Sydney _21).mp3"
+files with checksum 1373901526:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Hell (Live on KEXP)-R3qeJXtDhKU.mp4"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Hell (Live on KEXP)-R3qeJXtDhKU.mp4"
+files with checksum 4005824871:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\18 K.G.L.W. (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\18 K.G.L.W. (Live In Melbourne '21).wav"
+files with checksum 3162799161:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\02 Sleep Drifter (Live on KEXP Apr '17).mkv"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\02 Sleep Drifter (Live on KEXP Apr '17).mkv"
+files with checksum 3167924063:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\2 Polygondwanaland.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\2 Polygondwanaland.wav"
+files with checksum 1444566079:
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0015 [2021-04-03 204740].wav.asd"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0015 [2021-04-03 204740].wav.asd"
+files with checksum 3292006039:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\11 The Wheel.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\11 The Wheel.mp3"
+files with checksum 523380982:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\14 See Me (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\14 See Me (Live In Sydney _21).wav"
+files with checksum 1390780684:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\9 Searching....wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\9 Searching....wav"
+files with checksum 1830282909:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\05 The Fourth Color (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\05 The Fourth Color (Live in Paris '19).mp3"
+files with checksum 3639391107:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\13 Supreme Ascendancy (Live In Sydney _21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\13 Supreme Ascendancy (Live In Sydney _21).wav"
+files with checksum 1102082768:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\04 Ataraxia (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\04 Ataraxia (Live In Sydney _21).wav"
+files with checksum 1248774015:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\2-Audio 0006 [2021-04-03 203422].wav"
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\2-Audio 0006 [2021-04-03 203422].wav"
+files with checksum 2345759936:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\03 Oddlife (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\03 Oddlife (Live In Melbourne '21).wav"
+files with checksum 3830951592:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\03 Barefoot Desert.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\03 Barefoot Desert.mp3"
+files with checksum 3583402240:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\03 Mars For The Rich (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\03 Mars For The Rich (Live in Adelaide '19).wav"
+files with checksum 3999878131:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\03 Mars For The Rich (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\03 Mars For The Rich (Live in Adelaide '19).mp3"
+files with checksum 2343114408:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\17 Boogieman Sam (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\17 Boogieman Sam (Live in Paris '19).wav"
+files with checksum 1009611179:
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\Quarters - Vinyl cover.jpg"
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\Quarters - Vinyl cover.jpg"
+files with checksum 2506501314:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\07 This Thing.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\07 This Thing.mp3"
+files with checksum 1247919151:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\08 The Last Oasis.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\08 The Last Oasis.mp3"
+files with checksum 2530742629:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\05 O.N.E. (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\05 O.N.E. (Live In Melbourne '21).wav"
+files with checksum 3856249842:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\Live in Melbourne 21 - Cover Art.jpeg"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\Live in Melbourne 21 - Cover Art.jpeg"
+files with checksum 591348525:
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\1-4-Audio 3 0006 [2021-04-03 205525].wav"
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\1-4-Audio 3 0006 [2021-04-03 205525].wav"
+files with checksum 1778219852:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\10 Billabong Valley (Live in Adelaide '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\10 Billabong Valley (Live in Adelaide '19).mp3"
+files with checksum 2157774731:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\08 Muddy Water (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\08 Muddy Water (Live in Paris '19).mp3"
+files with checksum 3883511251:
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\10 Im Sleepin In.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\10 Im Sleepin In.mp3"
+files with checksum 387445655:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\16 Organ Farmer (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\16 Organ Farmer (Live in Adelaide '19).wav"
+files with checksum 85231658:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\10 Mr. Beat (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\10 Mr. Beat (Live in Paris '19).mp3"
+files with checksum 861635488:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\17 Self-Immolate (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\17 Self-Immolate (Live in Adelaide '19).mp3"
+files with checksum 1870434355:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\09 Static Electricity (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\09 Static Electricity (Live In Melbourne '21).mp3"
+files with checksum 3782685773:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\15 The Hungry Wolf Of Fate (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\15 The Hungry Wolf Of Fate (Live In Sydney _21).mp3"
+files with checksum 865975924:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\04 Doom City (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\04 Doom City (Live In Melbourne '21).mp3"
+files with checksum 1102002172:
+  "D:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\01 Beginners Luck.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\gumboot_soup\\01 Beginners Luck.mp3"
+files with checksum 748014737:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\13 Supreme Ascendancy (Live In Sydney _21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\13 Supreme Ascendancy (Live In Sydney _21).mp3"
+files with checksum 539317529:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\06 Cold Cadaver.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\06 Cold Cadaver.mp3"
+files with checksum 2834846770:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\01 Robot Stop.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\01 Robot Stop.mp3"
+files with checksum 905016687:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\04 Deserted Dunes Welcome Weary Feet.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\04 Deserted Dunes Welcome Weary Feet.mp3"
+files with checksum 4169172369:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\03 Oddlife (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\03 Oddlife (Live In Melbourne '21).mp3"
+files with checksum 3000317007:
+  "E:/music\\_projects\\Chug Paradise Project\\Samples\\Recorded\\1-4-Audio 3 0006 [2021-04-03 205525].wav.asd"
+  "E:/music\\_projects\\Acoustic Vibe Project\\Samples\\Recorded\\1-4-Audio 3 0006 [2021-04-03 205525].wav.asd"
+files with checksum 156616418:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\14 Horology (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\14 Horology (Live in Adelaide '19).mp3"
+files with checksum 2742201961:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\10 Billabong Valley (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\10 Billabong Valley (Live in Adelaide '19).wav"
+files with checksum 2684645803:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\16 All Is Known (Live in Paris '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\16 All Is Known (Live in Paris '19).mp3"
+files with checksum 1600177257:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\14 Automation (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\14 Automation (Live In Melbourne '21).wav"
+files with checksum 2754444462:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\08 Muddy Water (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\08 Muddy Water (Live in Paris '19).wav"
+files with checksum 3170022777:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\09 Searching....mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\09 Searching....mp3"
+files with checksum 2705494063:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\14 See Me (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\14 See Me (Live In Sydney _21).mp3"
+files with checksum 1227685960:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\07 Hot Water (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\07 Hot Water (Live in Adelaide '19).mp3"
+files with checksum 1218046101:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\15 Anoxia (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\15 Anoxia (Live in Paris '19).wav"
+files with checksum 1142046563:
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\04 Plastic Boogie.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\04 Plastic Boogie.mp3"
+files with checksum 602296483:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\08 East West Link (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\08 East West Link (Live In Melbourne '21).wav"
+files with checksum 1334202992:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\15 Minimum Brain Size (Live In Melbourne '21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\15 Minimum Brain Size (Live In Melbourne '21).mp3"
+files with checksum 2346749494:
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\08 Tetrachromacy.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\08 Tetrachromacy.mp3"
+files with checksum 38718250:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\04 Paper Ma\u{302}che\u{301} Dream Balloon.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\04 Paper Ma\u{302}che\u{301} Dream Balloon.mp3"
+files with checksum 927873676:
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\01 The River.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\WAV_versions\\01 The River.wav"
+files with checksum 1425404783:
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\12 Paper Ma\u{302}che\u{301}.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\12 Paper Ma\u{302}che\u{301}.mp3"
+files with checksum 136130455:
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\06 Real's Not Real.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\06 Real's Not Real.mp3"
+files with checksum 3267631379:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\06 Ontology (Live In Melbourne '21).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\06 Ontology (Live In Melbourne '21).mp3"
+files with checksum 2315821039:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\09 Sleep Drifter (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\09 Sleep Drifter (Live in Adelaide '19).wav"
+files with checksum 1884803322:
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\11 Most of What I Like.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\11 Most of What I Like.mp3"
+files with checksum 3346307593:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\14 Nuclear Fusion (Live in Paris '19).mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\14 Nuclear Fusion (Live in Paris '19).mp3"
+files with checksum 955262500:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\11 D-Day (Live In Sydney _21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\WAV_Versions\\11 D-Day (Live In Sydney _21).wav"
+files with checksum 1181552870:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\17 Honey (Live In Melbourne '21).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\17 Honey (Live In Melbourne '21).wav"
+files with checksum 2476620073:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\06 Real's Not Real (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\06 Real's Not Real (Live in Adelaide '19).wav"
+files with checksum 2789767328:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\Live in Sydney 21 - Cover Art.jpg"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\Live in Sydney 21 - Cover Art.jpg"
+files with checksum 1159263334:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'15\\02 I'm In Your Mind, I'm Not In Your Mind, Cellophane, and I'm In Your Mind Fuzz (Live on KEXP '15).mkv"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'15\\02 I'm In Your Mind, I'm Not In Your Mind, Cellophane, and I'm In Your Mind Fuzz (Live on KEXP '15).mkv"
+files with checksum 2628434394:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Venusian 1 (Live on KEXP)-L6jWaF6dTM0.mp4"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'19 -\\King Gizzard & The Lizard Wizard - Venusian 1 (Live on KEXP)-L6jWaF6dTM0.mp4"
+files with checksum 1009125617:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\03 Deserted Dunes Welcome Weary Feet (Live on KEXP '18).mkv"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\03 Deserted Dunes Welcome Weary Feet (Live on KEXP '18).mkv"
+files with checksum 2595980753:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\11 D-Day (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\11 D-Day (Live In Sydney _21).mp3"
+files with checksum 2959081725:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\14 Horology (Live in Adelaide '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\14 Horology (Live in Adelaide '19).wav"
+files with checksum 4102271868:
+  "D:/music\\King Gizzard & The Lizard Wizard\\quarters!\\02 Infinite Rise.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\quarters!\\02 Infinite Rise.mp3"
+files with checksum 3454660714:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\05 Cyboogie (Live in Adelaide '19).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\05 Cyboogie (Live in Adelaide '19).mp3"
+files with checksum 2786594423:
+  "D:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\03 Dirt.mp3"
+  "E:/music\\King Gizzard & The Lizard Wizard\\paper_mâché_dream_balloon\\03 Dirt.mp3"
+files with checksum 2728860627:
+  "E:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\Fishing for Fishies - Cover Art.jpg"
+  "D:/music\\King Gizzard & The Lizard Wizard\\fishing_for_fishies\\Fishing for Fishies - Cover Art.jpg"
+files with checksum 2378812722:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\02 Venusian 2 (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\02 Venusian 2 (Live in Paris '19).wav"
+files with checksum 3370029535:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\04 People-Vultures.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\04 People-Vultures.mp3"
+files with checksum 932977436:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\16 All Is Known (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\16 All Is Known (Live in Paris '19).wav"
+files with checksum 3712229404:
+  "D:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\7 Horology.wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\polygondwanaland\\WAV_versions\\7 Horology.wav"
+files with checksum 1278981091:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\13 Billabong Valley (Live in Paris '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\13 Billabong Valley (Live in Paris '19).wav"
+files with checksum 1923660909:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\05 Muddy Water (Live on KEXP '18).webm"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_'18\\05 Muddy Water (Live on KEXP '18).webm"
+files with checksum 349568370:
+  "E:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\05 Mr.Beat.mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\nonagon_infinity\\05 Mr.Beat.mp3"
+files with checksum 3811749902:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\01 Fury (Live In Melbourne '21).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_melbourne_'21\\WAV_versions\\01 Fury (Live In Melbourne '21).wav"
+files with checksum 2239726764:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\13 Loyalty (Live in Adelaide '19).wav"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_adelaide_'19\\WAV_versions\\13 Loyalty (Live in Adelaide '19).wav"
+files with checksum 422213433:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\10 Automation (Live In Sydney _21).mp3"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_sydney_'21\\10 Automation (Live In Sydney _21).mp3"
+files with checksum 2799623129:
+  "E:/music\\_projects\\_musescore\\onebadgloop\\One Bad Gloop Jazz - midi version.mid"
+  "E:/music\\_projects\\_musescore\\onebadgloop\\onebadgloopjazzmidiversion.mid"
+files with checksum 1976347444:
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\03 Perihelion (Live in Paris '19).wav"
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_in_paris_'19\\WAV_versions\\03 Perihelion (Live in Paris '19).wav"
+files with checksum 2932625109:
+  "E:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\04 Nuclear Fusion (Live on KEXP Apr '17).mkv"
+  "D:/music\\King Gizzard & The Lizard Wizard\\(live)\\live_on_kexp_apr_'17\\04 Nuclear Fusion (Live on KEXP Apr '17).mkv"
+took: 284.1028372s

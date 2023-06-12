@@ -1,3 +1,5 @@
+#![feature(windows_by_handle)]
+
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -37,7 +39,7 @@ fn usage(pn: &str) {
 // more like an argument than a flag
 #[derive(Debug)]
 struct Options {
-    target_dir: PathBuf,
+    target_dirs: Vec<PathBuf>,
     verbose: bool,
     recursive: bool,
     quiet: bool,
@@ -46,7 +48,7 @@ struct Options {
 impl Options {
     fn default() -> Options {
         Options {
-            target_dir: PathBuf::from(""),
+            target_dirs: Vec::new(),
             verbose: false,
             quiet: false,
             recursive: false,
@@ -83,7 +85,7 @@ fn parse_args(mut args: env::Args) -> Options {
             otherwise => {
                 let maybe_path = PathBuf::from(otherwise);
                 if maybe_path.is_dir() {
-                    res.target_dir = maybe_path;
+                    res.target_dirs.push(maybe_path);
                 } else {
                     usage(&program_name);
                     eprintln!("ERROR: no such directory or flag: {}", otherwise);
@@ -93,9 +95,9 @@ fn parse_args(mut args: env::Args) -> Options {
         }
     }
 
-    if res.target_dir.to_str().unwrap() == "" {
+    if res.target_dirs.is_empty() {
         usage(&program_name);
-        eprintln!("ERROR: no directory provided.");
+        eprintln!("ERROR: no directories provided.");
         process::exit(1);
     }
     res
@@ -121,8 +123,6 @@ fn get_file_identifier(fp: &Path) -> u64 {
 fn get_file_identifier(fp: &Path) -> u64 {
     /* on windows, we can use the nFileIndex{Low,High} as a file identifier. */
     use std::os::windows::fs::MetadataExt;
-    compile_error!(concat!("get_file_identifier has not been tested on windows",
-        " and must be tested before compilation for windows is safe."));
     /* NOTE: this function expects the path passed in to
     have been pre-verified to exist. */
     let md = fs::metadata(fp).unwrap();
@@ -237,14 +237,15 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
     if !options.quiet {
         print!("Building file list... \r");
     }
-
     let mut acc = EntriesByIdentifiers::new();
-    if options.recursive {
-        let read_dir_iterator = RecReadDir::new(&options.target_dir).expect("read_dir call failed");
-        collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
-    } else {
-        let read_dir_iterator = options.target_dir.read_dir().expect("read_dir call failed");
-        collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
+    for target_dir in &options.target_dirs {
+        if options.recursive {
+            let read_dir_iterator = RecReadDir::new(target_dir).expect("read_dir call failed");
+            collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
+        } else {
+            let read_dir_iterator = target_dir.read_dir().expect("read_dir call failed");
+            collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
+        }
     }
     let res: Vec<LinkedGroup> = acc.drain().map(|(id, files)| LinkedGroup {id, files}).collect();
     println!("Building file list... {}      ", res.len());
@@ -370,6 +371,7 @@ fn print_dups(ds: &Dups) {
 }
 
 use std::time::Instant;
+use atty::Stream;
 
 fn main() {
     let options = parse_args(env::args());
@@ -387,6 +389,6 @@ fn main() {
     start = Instant::now();
     let dups = filter_non_dups(sizewise_dups);
     println!("Found {} duplicates.", dups.len());
-    if dups.len() < 25 { print_dups(&dups); }
+    if dups.len() < 25 || !atty::is(Stream::Stdout) { print_dups(&dups); }
     println!("took: {:?}", start.elapsed());
 }
