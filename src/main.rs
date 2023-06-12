@@ -1,11 +1,13 @@
 #![feature(windows_by_handle)]
 
+use crate::recursive_dir_reader::RecReadDir;
+
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::env;
-use std::fmt::Write as OtherWrite;
 use std::fmt;
+use std::fmt::Write as OtherWrite;
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -118,7 +120,6 @@ fn get_file_identifier(fp: &Path) -> u64 {
     md.ino()
 }
 
-
 #[cfg(windows)]
 fn get_file_identifier(fp: &Path) -> u64 {
     /* on windows, we can use the nFileIndex{Low,High} as a file identifier. */
@@ -131,13 +132,17 @@ fn get_file_identifier(fp: &Path) -> u64 {
 
 type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
 struct LinkedGroup {
-    id:    u64,               /* file identifier */
+    id: u64,                  /* file identifier */
     files: Vec<fs::DirEntry>, /* files linked to the identifier */
 }
 
 impl fmt::Display for LinkedGroup {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.files[0].path().as_os_str().to_string_lossy())?;
+        write!(
+            f,
+            "{:?}",
+            self.files[0].path().as_os_str().to_string_lossy()
+        )?;
         if self.files.len() > 1 {
             write!(f, " (aka ")?;
         }
@@ -149,59 +154,13 @@ impl fmt::Display for LinkedGroup {
             write!(
                 f,
                 "{:?})",
-                self.files[self.files.len() - 1].path().as_os_str().to_string_lossy()
+                self.files[self.files.len() - 1]
+                    .path()
+                    .as_os_str()
+                    .to_string_lossy()
             )?;
         }
         Ok(())
-    }
-}
-
-
-
-
-#[derive(Debug)]
-struct RecReadDir {
-    dirs: Vec<PathBuf>,
-    current: fs::ReadDir,
-}
-
-impl RecReadDir {
-    fn new(start: &Path) -> std::io::Result<RecReadDir> { 
-        Ok(RecReadDir {
-            dirs: vec![],
-            current: start.read_dir()?,
-        })
-    }
-}
-
-impl Iterator for RecReadDir {
-    type Item = std::io::Result<fs::DirEntry>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        /*
-            An std::fs::ReadDir iterates over the entries in a directory.
-            In this iterator, a stack of directories (self.dirs) is maintained
-            and items are yeilded from std::fs::ReadDir iterators over
-            these directories in-turn until the stack is exhausted. When
-            directories are found, they are added to the stack. This results in
-            a recursive traversal.
-        */
-        if let Some(dir_entry) = self.current.next() {
-            if let Ok(ref de) = dir_entry {
-                if de.file_type().expect("couldn't get file type").is_dir() {
-                    self.dirs.push(de.path());
-                }
-            }
-            Some(dir_entry)
-        } else {
-            while let Some(path) = self.dirs.pop() {
-                if let Ok(read_dir) = fs::read_dir(path) {
-                    self.current = read_dir;
-                    return self.next();
-                }
-            }
-            None
-        }
     }
 }
 
@@ -247,7 +206,10 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
             collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
         }
     }
-    let res: Vec<LinkedGroup> = acc.drain().map(|(id, files)| LinkedGroup {id, files}).collect();
+    let res: Vec<LinkedGroup> = acc
+        .drain()
+        .map(|(id, files)| LinkedGroup { id, files })
+        .collect();
     println!("Building file list... {}      ", res.len());
     if !options.quiet {
         println!("Found {} files.", res.len());
@@ -370,8 +332,8 @@ fn print_dups(ds: &Dups) {
     }
 }
 
-use std::time::Instant;
 use atty::Stream;
+use std::time::Instant;
 
 fn main() {
     let options = parse_args(env::args());
@@ -389,6 +351,8 @@ fn main() {
     start = Instant::now();
     let dups = filter_non_dups(sizewise_dups);
     println!("Found {} duplicates.", dups.len());
-    if dups.len() < 25 || !atty::is(Stream::Stdout) { print_dups(&dups); }
+    if dups.len() < 25 || !atty::is(Stream::Stdout) {
+        print_dups(&dups);
+    }
     println!("took: {:?}", start.elapsed());
 }
