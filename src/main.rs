@@ -35,7 +35,7 @@ fn usage(pn: &str) {
     println!();
     println!("    -h, --help           print this message.");
     println!();
-    println!("  and where <input> is a path to a directory.");
+    println!("  and where <input> is one or more paths to directories.");
 }
 
 // TODO: consider factoring target_dir out of options since it's
