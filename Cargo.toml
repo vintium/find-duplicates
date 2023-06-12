@@ -11,6 +11,3 @@ rayon = "1.5.1"
 indexmap = "1.9.3"
 atty = "0.2.14"
 
-[[bin]]
-name = "find-duplicates"
-path = "main.rs"

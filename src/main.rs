@@ -1,14 +1,12 @@
 #![feature(windows_by_handle)]
 
-use crate::linked_group::LinkedGroup;
-use crate::recursive_dir_reader::RecReadDir;
+use find_duplicates::linked_group::LinkedGroup;
+use find_duplicates::recursive_dir_reader::RecReadDir;
 
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::env;
-use std::fmt;
-use std::fmt::Write as OtherWrite;
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -143,8 +141,7 @@ where
             print!("Building file list... {}\r", i);
             a
         })
-        .filter(|a| a.is_ok())
-        .map(|a| a.unwrap())
+        .filter_map(Result::ok)
         .filter(|a| !fs::metadata(a.path()).expect("failed to stat").is_dir())
         .map(|a| {
             let fi = get_file_identifier(&a.path());
@@ -205,7 +202,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
     let mut maybe_dups: SizewiseDups = HashMap::new();
     for (n, de) in files.drain(..).enumerate() {
         print!("Size-checking {}/{} files...\r", n, amt_files);
-        let md = de.files[0].metadata().expect("failed to stat");
+        let md = de.files()[0].metadata().expect("failed to stat");
         // it would be an error if there were directories in the file list
         assert!(!md.is_dir());
         let fsize = md.len();
@@ -231,7 +228,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
 fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
     fs.par_drain(..)
         .map(|f| {
-            let p = f.files[0].path();
+            let p = f.files()[0].path();
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
             (adler32(bytes_of_file.as_slice()).unwrap(), f)
         })
