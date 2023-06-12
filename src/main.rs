@@ -205,7 +205,7 @@ fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
     let mut maybe_dups: SizewiseDups = HashMap::new();
     for (n, de) in files.drain(..).enumerate() {
         print!("Size-checking {}/{} files...\r", n, amt_files);
-        let md = de.files()[0].metadata().expect("failed to stat");
+        let md = de.paths()[0].metadata().expect("failed to stat");
         // it would be an error if there were directories in the file list
         assert!(!md.is_dir());
         let fsize = md.len();
@@ -231,7 +231,7 @@ fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
 fn calc_file_checksumsr(mut fs: Vec<MetaFile>) -> Vec<(u32, MetaFile)> {
     fs.par_drain(..)
         .map(|f| {
-            let p = &f.files()[0];
+            let p = &f.paths()[0];
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
             (adler32(bytes_of_file.as_slice()).unwrap(), f)
         })
