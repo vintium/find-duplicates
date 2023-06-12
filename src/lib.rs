@@ -1,2 +1,2 @@
-pub mod linked_group;
+pub mod metafile;
 pub mod recursive_dir_reader;

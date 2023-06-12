@@ -1,6 +1,6 @@
 #![feature(windows_by_handle)]
 
-use find_duplicates::linked_group::LinkedGroup;
+use find_duplicates::metafile::MetaFile;
 use find_duplicates::recursive_dir_reader::RecReadDir;
 
 use std::collections::hash_map::Entry;
@@ -158,7 +158,7 @@ where
                   iterator and run each iteration */
 }
 
-fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
+fn build_file_list(options: &Options) -> Vec<MetaFile> {
     if !options.quiet {
         print!("Building file list... \r");
     }
@@ -172,9 +172,9 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
             collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
         }
     }
-    let res: Vec<LinkedGroup> = acc
+    let res: Vec<MetaFile> = acc
         .drain()
-        .map(|(id, files)| LinkedGroup::new(id, files))
+        .map(|(id, files)| MetaFile::new(id, files))
         .collect();
     println!("Building file list... {}      ", res.len());
     if !options.quiet {
@@ -191,9 +191,9 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
 
 // a map whose keys are filesizes and whose values are vecs of files with a
 // given size.          /* TODO consider changing to set */
-type SizewiseDups = HashMap<u64, Vec<LinkedGroup>>;
+type SizewiseDups = HashMap<u64, Vec<MetaFile>>;
 
-fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
+fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
     // keep track of how many files we started with for logging
     let amt_files = files.len();
     // keep track of sizes for which 2 or more files have been found
@@ -225,7 +225,7 @@ fn find_sizewise_dups(mut files: Vec<LinkedGroup>) -> SizewiseDups {
     res
 }
 
-fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
+fn calc_file_checksumsr(mut fs: Vec<MetaFile>) -> Vec<(u32, MetaFile)> {
     fs.par_drain(..)
         .map(|f| {
             let p = f.files()[0].path();
@@ -243,7 +243,7 @@ fn calc_file_checksumsr(mut fs: Vec<LinkedGroup>) -> Vec<(u32, LinkedGroup)> {
 
 // a map whose keys are checksums and whose values are vecs of files with a
 // given checksum.     /* TODO consider changing to set */
-type Dups = HashMap<u32, Vec<LinkedGroup>>;
+type Dups = HashMap<u32, Vec<MetaFile>>;
 
 fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
     let mut calculation_count: usize = 0;

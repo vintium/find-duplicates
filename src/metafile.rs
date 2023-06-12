@@ -1,12 +1,12 @@
 use std::fmt;
 use std::fs;
 
-pub struct LinkedGroup {
+pub struct MetaFile {
     id: u64,                  /* file identifier */
     files: Vec<fs::DirEntry>, /* files linked to the identifier */
 }
 
-impl LinkedGroup {
+impl MetaFile {
     pub fn new(id: u64, files: Vec<fs::DirEntry>) -> Self {
         Self { id, files }
     }
@@ -20,7 +20,7 @@ impl LinkedGroup {
     }
 }
 
-impl fmt::Display for LinkedGroup {
+impl fmt::Display for MetaFile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
