@@ -1,1 +1,0 @@
-C:/Users/vinti/code/find-duplicates/test/yo.txt
