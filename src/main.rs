@@ -1,5 +1,6 @@
 #![feature(windows_by_handle)]
 
+use crate::linked_group::LinkedGroup;
 use crate::recursive_dir_reader::RecReadDir;
 
 use std::collections::hash_map::Entry;
@@ -131,38 +132,6 @@ fn get_file_identifier(fp: &Path) -> u64 {
 }
 
 type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
-struct LinkedGroup {
-    id: u64,                  /* file identifier */
-    files: Vec<fs::DirEntry>, /* files linked to the identifier */
-}
-
-impl fmt::Display for LinkedGroup {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "{:?}",
-            self.files[0].path().as_os_str().to_string_lossy()
-        )?;
-        if self.files.len() > 1 {
-            write!(f, " (aka ")?;
-        }
-        for idx in 1..(self.files.len() - 1) {
-            let de = &self.files[idx];
-            write!(f, "{:?}, ", de.path().as_os_str().to_string_lossy())?;
-        }
-        if self.files.len() > 1 {
-            write!(
-                f,
-                "{:?})",
-                self.files[self.files.len() - 1]
-                    .path()
-                    .as_os_str()
-                    .to_string_lossy()
-            )?;
-        }
-        Ok(())
-    }
-}
 
 fn collect_into_entries_by_identifiers<I>(acc: &mut EntriesByIdentifiers, read_dir_iterator: I)
 where
@@ -208,7 +177,7 @@ fn build_file_list(options: &Options) -> Vec<LinkedGroup> {
     }
     let res: Vec<LinkedGroup> = acc
         .drain()
-        .map(|(id, files)| LinkedGroup { id, files })
+        .map(|(id, files)| LinkedGroup::new(id, files))
         .collect();
     println!("Building file list... {}      ", res.len());
     if !options.quiet {
