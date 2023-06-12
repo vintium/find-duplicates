@@ -2,6 +2,8 @@
 
 use find_duplicates::metafile::MetaFile;
 use find_duplicates::recursive_dir_reader::RecReadDir;
+use indexmap::indexset;
+use indexmap::IndexSet;
 
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
@@ -129,7 +131,7 @@ fn get_file_identifier(fp: &Path) -> u64 {
     md.file_index().unwrap()
 }
 
-type EntriesByIdentifiers = HashMap<u64, Vec<fs::DirEntry>>;
+type EntriesByIdentifiers = HashMap<u64, IndexSet<PathBuf>>;
 
 fn collect_into_entries_by_identifiers<I>(acc: &mut EntriesByIdentifiers, read_dir_iterator: I)
 where
@@ -142,15 +144,16 @@ where
             a
         })
         .filter_map(Result::ok)
-        .filter(|a| !fs::metadata(a.path()).expect("failed to stat").is_dir())
+        .map(|a| a.path())
+        .filter(|a| !fs::metadata(a).expect("failed to stat").is_dir())
         .map(|a| {
-            let fi = get_file_identifier(&a.path());
+            let fi = get_file_identifier(&a);
             match acc.entry(fi) {
                 Entry::Occupied(mut e) => {
-                    e.get_mut().push(a);
+                    e.get_mut().insert(a);
                 }
                 Entry::Vacant(e) => {
-                    e.insert(vec![a]);
+                    e.insert(indexset![a]);
                 }
             }
         })
@@ -228,7 +231,7 @@ fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
 fn calc_file_checksumsr(mut fs: Vec<MetaFile>) -> Vec<(u32, MetaFile)> {
     fs.par_drain(..)
         .map(|f| {
-            let p = f.files()[0].path();
+            let p = &f.files()[0];
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
             (adler32(bytes_of_file.as_slice()).unwrap(), f)
         })
