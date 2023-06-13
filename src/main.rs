@@ -134,31 +134,19 @@ fn build_file_list(options: &Options) -> IndexSet<MetaFile> {
 type SizewiseDups = HashMap<u64, HashSet<MetaFile>>;
 
 fn find_sizewise_dups(files: impl IntoIterator<Item = MetaFile>) -> SizewiseDups {
-    // keep track of sizes for which 2 or more files have been found
-    let mut dup_sizes: HashSet<u64> = HashSet::new();
-    // build map of filesizes to sets of files with that size
-    let mut maybe_dups: SizewiseDups = HashMap::new();
+    let mut files_by_size: SizewiseDups = HashMap::new();
     for f in files {
-        let md = f.paths()[0].metadata().expect("failed to stat");
+        let Ok(metadata) = f.paths()[0].metadata() else { continue; };
         // it would be an error if there were directories in the file list
-        assert!(!md.is_dir());
-        let fsize = md.len();
-        match maybe_dups.entry(fsize) {
-            Entry::Occupied(mut e) => {
-                e.get_mut().insert(f);
-                dup_sizes.insert(fsize);
-            }
-            Entry::Vacant(e) => {
-                e.insert(HashSet::from([f]));
-            }
-        }
+        assert!(!metadata.is_dir());
+        let file_size = metadata.len();
+        files_by_size
+            .entry(file_size)
+            .or_insert(HashSet::with_capacity(1))
+            .insert(f);
     }
-    // collect all of the size-wise dups we found
-    let mut res: SizewiseDups = HashMap::new();
-    for dup_size in dup_sizes {
-        res.insert(dup_size, maybe_dups.remove(&dup_size).unwrap());
-    }
-    res
+    files_by_size.retain(|_, files| files.len() > 1);
+    files_by_size
 }
 
 fn calc_file_checksumsr(mut fs: HashSet<MetaFile>) -> HashSet<(u32, MetaFile)> {
