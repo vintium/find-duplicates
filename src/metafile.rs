@@ -80,11 +80,10 @@ impl fmt::Display for MetaFile {
     }
 }
 
-pub fn collect_into_metafiles<I>(paths: I) -> IndexSet<MetaFile>
+pub fn collect_into_metafiles<I>(acc: &mut IndexSet<MetaFile>, paths: I)
 where
     I: Iterator<Item = PathBuf>,
 {
-    let mut acc: IndexSet<MetaFile> = indexset![];
     for p in paths {
         let id = get_file_identifier(&p);
         match acc.take(&MetaFile::from_id(id)) {
@@ -97,5 +96,4 @@ where
             }
         }
     }
-    acc
 }
