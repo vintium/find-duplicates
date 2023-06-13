@@ -126,7 +126,7 @@ fn build_file_list(options: &Options) -> IndexSet<MetaFile> {
    sizewise perspective.
 */
 
-// a map whose keys are filesizes and whose values are vecs of files with a
+// a map whose keys are filesizes and whose values are sets of files with a
 // given size.
 type SizewiseDups = HashMap<u64, HashSet<MetaFile>>;
 
@@ -165,7 +165,7 @@ fn calc_file_checksumsr(
    checksumwise perspective.
 */
 
-// a map whose keys are checksums and whose values are vecs of files with a
+// a map whose keys are checksums and whose values are sets of files with a
 // given checksum.
 type Dups = HashMap<u32, HashSet<MetaFile>>;
 
