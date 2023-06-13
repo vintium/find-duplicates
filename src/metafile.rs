@@ -7,6 +7,7 @@ use crate::file_id::get_file_identifier;
 
 use indexmap::{indexset, IndexSet};
 
+#[derive(Debug)]
 pub struct MetaFile {
     id: u64,                  /* id from the OS; this must be an identifier that any two
                               files that are linked together (hardly or softly) will share;
@@ -81,10 +82,11 @@ impl fmt::Display for MetaFile {
     }
 }
 
-pub fn collect_into_metafiles<I>(acc: &mut IndexSet<MetaFile>, paths: I, keep_dirs: bool)
-where
-    I: Iterator<Item = PathBuf>,
-{
+pub fn collect_into_metafiles(
+    acc: &mut IndexSet<MetaFile>,
+    paths: impl IntoIterator<Item = PathBuf>,
+    keep_dirs: bool,
+) {
     for p in paths {
         if !keep_dirs && fs::metadata(&p).map_or(false, |d| d.is_dir()) {
             continue;
@@ -99,5 +101,60 @@ where
                 assert!(acc.insert(MetaFile::new(id, indexset![p])));
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::fs;
+    use std::io;
+    use std::path::PathBuf;
+
+    use indexmap::indexset;
+
+    use super::collect_into_metafiles;
+
+    #[test]
+    fn metafiles() -> io::Result<()> {
+        // setup
+        fs::create_dir("test-tmp")?;
+        fs::write("test-tmp/file1", "meow")?;
+        fs::write("test-tmp/file2", "nya")?;
+        fs::hard_link("test-tmp/file1", "test-tmp/file1-hardlink")?;
+        #[cfg(unix)]
+        {
+            std::os::unix::fs::symlink("test-tmp/file1", "test-tmp/file1-symlink")?
+        }
+        #[cfg(windows)]
+        {
+            // std::os::windows::fs::symlink_file("test-tmp\\file1", "test-tmp\\file1-symlink")?
+        }
+        // test
+        let mut metafiles = indexset![];
+        collect_into_metafiles(
+            &mut metafiles,
+            [
+                PathBuf::from("test-tmp/file1"),
+                PathBuf::from("test-tmp/file1-hardlink"),
+                // PathBuf::from("test-tmp/file1-symlink"),
+                PathBuf::from("test-tmp/file2"),
+            ],
+            false,
+        );
+        dbg!(&metafiles);
+        assert_eq!(metafiles.len(), 2);
+        for file in &metafiles {
+            assert!(
+                file.paths() == &indexset![PathBuf::from("test-tmp/file2")]
+                    || file.paths()
+                        == &indexset![
+                            PathBuf::from("test-tmp/file1"),
+                            PathBuf::from("test-tmp/file1-hardlink"),
+                            // PathBuf::from("test-tmp/file1-symlink")
+                        ]
+            )
+        }
+        // cleanup
+        fs::remove_dir_all("test-tmp")
     }
 }
