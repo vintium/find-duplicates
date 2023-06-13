@@ -3,7 +3,8 @@ use std::fs;
 use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
 
-use crate::file_id::get_file_identifier;
+mod file_id;
+use file_id::get_file_identifier;
 
 use indexmap::{indexset, IndexSet};
 
