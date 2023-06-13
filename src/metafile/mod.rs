@@ -8,7 +8,7 @@ use file_id::get_file_identifier;
 
 use indexmap::{indexset, IndexSet};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct MetaFile {
     id: u64,                  /* id from the OS; this must be an identifier that any two
                               files that are linked together (hardly or softly) will share;

@@ -28,6 +28,9 @@ fn usage(application_name: &str) {
     println!("                         piping to other programs. cannot");
     println!("                         be used with -v, --verbose");
     println!();
+    println!("    -u, --unique         return files that are unique instead");
+    println!("                         of files that are duplicates.");
+    println!();
     println!("    -h, --help           print this message.");
     println!();
     println!("  and where <input> is one or more paths to directories.");
@@ -39,6 +42,7 @@ struct Options {
     verbose: bool,
     recursive: bool,
     quiet: bool,
+    unique: bool,
 }
 
 impl Options {
@@ -48,6 +52,7 @@ impl Options {
             verbose: false,
             quiet: false,
             recursive: false,
+            unique: false,
         }
     }
 }
@@ -78,6 +83,7 @@ fn parse_args(mut args: env::Args) -> Options {
                 usage(&program_name);
                 process::exit(1);
             }
+            "-u" | "--unique" => res.unique = true,
             otherwise => {
                 let maybe_path = PathBuf::from(otherwise);
                 if maybe_path.is_dir() {
@@ -215,7 +221,7 @@ fn main() {
     let file_list = build_file_list(&options);
     println!("took: {:?}", start.elapsed());
     start = Instant::now();
-    let sizewise_dups = find_sizewise_dups(file_list);
+    let sizewise_dups = find_sizewise_dups(file_list.clone());
     println!(
         "Found {} groups of files with equal sizes. {} files total.",
         sizewise_dups.len(),
@@ -224,9 +230,22 @@ fn main() {
     println!("took: {:?}", start.elapsed());
     start = Instant::now();
     let dups = find_dups(sizewise_dups);
-    println!("Found {} duplicates.", dups.len());
-    if dups.len() < 25 || !atty::is(Stream::Stdout) {
-        print_dups(&dups);
+    if options.unique {
+        let dup_files: IndexSet<MetaFile> = dups
+            .iter()
+            .map(|(_checksum, files)| files)
+            .cloned()
+            .flatten()
+            .collect();
+        let uniques = (&file_list).difference(&dup_files);
+        for unique in uniques {
+            print!("{unique}");
+        }
+    } else {
+        println!("Found {} duplicates.", dups.len());
+        if dups.len() < 25 || !atty::is(Stream::Stdout) {
+            print_dups(&dups);
+        }
     }
     println!("took: {:?}", start.elapsed());
 }
