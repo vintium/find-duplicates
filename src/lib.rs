@@ -1,4 +1,4 @@
-#![feature(windows_by_handle, is_some_and)]
+#![feature(windows_by_handle)]
 
 pub mod file_id;
 pub mod metafile;

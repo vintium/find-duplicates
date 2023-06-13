@@ -14,8 +14,8 @@ use adler32::adler32;
 
 use rayon::prelude::*;
 
-fn usage(pn: &str) {
-    println!("USAGE: {} [flags] <input>", pn);
+fn usage(application_name: &str) {
+    println!("USAGE: {} [flags] <input>", application_name);
     println!("  where [flags] can be 0 or more of the following:");
     println!("    -r, --recursive      include files in subdirectories,");
     println!("                         search recursively.");
@@ -133,30 +133,26 @@ fn build_file_list(options: &Options) -> IndexSet<MetaFile> {
 // given size.          /* TODO consider changing to set */
 type SizewiseDups = HashMap<u64, HashSet<MetaFile>>;
 
-fn find_sizewise_dups(mut files: IndexSet<MetaFile>) -> SizewiseDups {
-    // keep track of how many files we started with for logging
-    let amt_files = files.len();
+fn find_sizewise_dups(files: impl IntoIterator<Item = MetaFile>) -> SizewiseDups {
     // keep track of sizes for which 2 or more files have been found
     let mut dup_sizes: HashSet<u64> = HashSet::new();
-    // build map of filesizes to lists of files with that size
+    // build map of filesizes to sets of files with that size
     let mut maybe_dups: SizewiseDups = HashMap::new();
-    for (n, de) in files.drain(..).enumerate() {
-        print!("Size-checking {}/{} files...\r", n, amt_files);
-        let md = de.paths()[0].metadata().expect("failed to stat");
+    for f in files {
+        let md = f.paths()[0].metadata().expect("failed to stat");
         // it would be an error if there were directories in the file list
         assert!(!md.is_dir());
         let fsize = md.len();
         match maybe_dups.entry(fsize) {
             Entry::Occupied(mut e) => {
-                e.get_mut().insert(de);
+                e.get_mut().insert(f);
                 dup_sizes.insert(fsize);
             }
             Entry::Vacant(e) => {
-                e.insert(HashSet::from([de]));
+                e.insert(HashSet::from([f]));
             }
         }
     }
-    println!("Size-checked {}/{} files.          ", amt_files, amt_files);
     // collect all of the size-wise dups we found
     let mut res: SizewiseDups = HashMap::new();
     for dup_size in dup_sizes {
