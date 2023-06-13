@@ -33,8 +33,6 @@ fn usage(application_name: &str) {
     println!("  and where <input> is one or more paths to directories.");
 }
 
-// TODO: consider factoring target_dir out of options since it's
-// more like an argument than a flag
 #[derive(Debug)]
 struct Options {
     target_dirs: Vec<PathBuf>,
@@ -129,7 +127,7 @@ fn build_file_list(options: &Options) -> IndexSet<MetaFile> {
 */
 
 // a map whose keys are filesizes and whose values are vecs of files with a
-// given size.          /* TODO consider changing to set */
+// given size.
 type SizewiseDups = HashMap<u64, HashSet<MetaFile>>;
 
 fn find_sizewise_dups(files: impl IntoIterator<Item = MetaFile>) -> SizewiseDups {
@@ -168,7 +166,7 @@ fn calc_file_checksumsr(
 */
 
 // a map whose keys are checksums and whose values are vecs of files with a
-// given checksum.     /* TODO consider changing to set */
+// given checksum.
 type Dups = HashMap<u32, HashSet<MetaFile>>;
 
 fn find_dups(mut sizewise_dups: SizewiseDups) -> Dups {
