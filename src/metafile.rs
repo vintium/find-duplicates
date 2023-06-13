@@ -27,10 +27,9 @@ impl MetaFile {
         }
     }
 
-    pub fn try_add_path(&mut self, p: PathBuf) -> Result<(), ()> {
+    pub fn try_add_path(&mut self, p: PathBuf) -> Result<bool, ()> {
         if get_file_identifier(&p).is_ok_and(|id| id == self.id) {
-            self.paths.insert(p);
-            Ok(())
+            Ok(self.paths.insert(p))
         } else {
             Err(())
         }
