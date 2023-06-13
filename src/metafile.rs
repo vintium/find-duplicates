@@ -1,4 +1,5 @@
 use std::fmt;
+use std::fs;
 use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
 
@@ -80,11 +81,14 @@ impl fmt::Display for MetaFile {
     }
 }
 
-pub fn collect_into_metafiles<I>(acc: &mut IndexSet<MetaFile>, paths: I)
+pub fn collect_into_metafiles<I>(acc: &mut IndexSet<MetaFile>, paths: I, keep_dirs: bool)
 where
     I: Iterator<Item = PathBuf>,
 {
     for p in paths {
+        if !keep_dirs && fs::metadata(&p).map_or(false, |d| d.is_dir()) {
+            continue;
+        }
         let id = get_file_identifier(&p);
         match acc.take(&MetaFile::from_id(id)) {
             Some(mut mf) => {

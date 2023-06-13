@@ -1,4 +1,4 @@
-use find_duplicates::file_id::get_file_identifier;
+use find_duplicates::metafile::collect_into_metafiles;
 use find_duplicates::metafile::MetaFile;
 use find_duplicates::recursive_dir_reader::RecReadDir;
 use indexmap::indexset;
@@ -6,7 +6,6 @@ use indexmap::IndexSet;
 
 use std::collections::{hash_map::Entry, HashMap, HashSet};
 use std::env;
-use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
 use std::process;
@@ -103,59 +102,25 @@ fn parse_args(mut args: env::Args) -> Options {
     res
 }
 
-type EntriesByIdentifiers = HashMap<u64, IndexSet<PathBuf>>;
-
-fn collect_into_entries_by_identifiers<I>(acc: &mut EntriesByIdentifiers, read_dir_iterator: I)
-where
-    I: Iterator<Item = std::io::Result<fs::DirEntry>>,
-{
-    let _ = read_dir_iterator
-        .enumerate()
-        .map(|(i, a)| {
-            print!("Building file list... {}\r", i);
-            a
-        })
-        .filter_map(Result::ok)
-        .map(|a| a.path())
-        .filter(|a| !fs::metadata(a).expect("failed to stat").is_dir())
-        .map(|a| {
-            let fi = get_file_identifier(&a);
-            match acc.entry(fi) {
-                Entry::Occupied(mut e) => {
-                    e.get_mut().insert(a);
-                }
-                Entry::Vacant(e) => {
-                    e.insert(indexset![a]);
-                }
-            }
-        })
-        .count(); /* use `count` to exhaust this
-                  iterator and run each iteration */
-}
-
-fn build_file_list(options: &Options) -> Vec<MetaFile> {
+fn build_file_list(options: &Options) -> IndexSet<MetaFile> {
     if !options.quiet {
         print!("Building file list... \r");
     }
-    let mut acc = EntriesByIdentifiers::new();
+    let mut acc: IndexSet<MetaFile> = indexset![];
     for target_dir in &options.target_dirs {
-        if options.recursive {
-            let read_dir_iterator = RecReadDir::new(target_dir).expect("read_dir call failed");
-            collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
+        let read_dir_iterator: Box<dyn Iterator<Item = _>> = if options.recursive {
+            Box::new(RecReadDir::new(target_dir).expect("read_dir call failed"))
         } else {
-            let read_dir_iterator = target_dir.read_dir().expect("read_dir call failed");
-            collect_into_entries_by_identifiers(&mut acc, read_dir_iterator);
-        }
+            Box::new(target_dir.read_dir().expect("read_dir call failed"))
+        };
+        let path_iterator = read_dir_iterator.filter_map(Result::ok).map(|a| a.path());
+        collect_into_metafiles(&mut acc, path_iterator, false);
     }
-    let res: Vec<MetaFile> = acc
-        .drain()
-        .map(|(id, files)| MetaFile::new(id, files))
-        .collect();
-    println!("Building file list... {}      ", res.len());
+    println!("Building file list... {}      ", acc.len());
     if !options.quiet {
-        println!("Found {} files.", res.len());
+        println!("Found {} files.", acc.len());
     }
-    res
+    acc
 }
 
 /*
@@ -166,9 +131,9 @@ fn build_file_list(options: &Options) -> Vec<MetaFile> {
 
 // a map whose keys are filesizes and whose values are vecs of files with a
 // given size.          /* TODO consider changing to set */
-type SizewiseDups = HashMap<u64, Vec<MetaFile>>;
+type SizewiseDups = HashMap<u64, HashSet<MetaFile>>;
 
-fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
+fn find_sizewise_dups(mut files: IndexSet<MetaFile>) -> SizewiseDups {
     // keep track of how many files we started with for logging
     let amt_files = files.len();
     // keep track of sizes for which 2 or more files have been found
@@ -183,11 +148,11 @@ fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
         let fsize = md.len();
         match maybe_dups.entry(fsize) {
             Entry::Occupied(mut e) => {
-                e.get_mut().push(de);
+                e.get_mut().insert(de);
                 dup_sizes.insert(fsize);
             }
             Entry::Vacant(e) => {
-                e.insert(vec![de]);
+                e.insert(HashSet::from([de]));
             }
         }
     }
@@ -200,8 +165,8 @@ fn find_sizewise_dups(mut files: Vec<MetaFile>) -> SizewiseDups {
     res
 }
 
-fn calc_file_checksumsr(mut fs: Vec<MetaFile>) -> Vec<(u32, MetaFile)> {
-    fs.par_drain(..)
+fn calc_file_checksumsr(mut fs: HashSet<MetaFile>) -> HashSet<(u32, MetaFile)> {
+    fs.par_drain()
         .map(|f| {
             let p = &f.paths()[0];
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
@@ -240,7 +205,7 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
         std::io::stdout().flush().unwrap();
         calculation_count += files.len();
         let mut cs = calc_file_checksumsr(files);
-        for (checksum, fil) in cs.drain(..) {
+        for (checksum, fil) in cs.drain() {
             match maybe_dups.entry(checksum) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().push(fil);
