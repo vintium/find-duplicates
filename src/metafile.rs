@@ -79,3 +79,23 @@ impl fmt::Display for MetaFile {
         Ok(())
     }
 }
+
+pub fn collect_into_metafiles<I>(paths: I) -> IndexSet<MetaFile>
+where
+    I: Iterator<Item = PathBuf>,
+{
+    let mut acc: IndexSet<MetaFile> = indexset![];
+    for p in paths {
+        let id = get_file_identifier(&p);
+        match acc.take(&MetaFile::from_id(id)) {
+            Some(mut mf) => {
+                assert!(mf.try_add_path(p).is_ok());
+                assert!(acc.insert(mf));
+            }
+            None => {
+                assert!(acc.insert(MetaFile::new(id, indexset![p])));
+            }
+        }
+    }
+    acc
+}
