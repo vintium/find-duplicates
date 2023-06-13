@@ -1,7 +1,8 @@
 use std::fmt;
+use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
 
-use indexmap::IndexSet;
+use indexmap::{indexset, IndexSet};
 
 pub struct MetaFile {
     id: u64,                  /* id from the OS; this must be an identifier that any two
@@ -23,6 +24,20 @@ impl MetaFile {
         &self.paths
     }
 }
+
+impl Hash for MetaFile {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.id.hash(state);
+    }
+}
+
+impl PartialEq for MetaFile {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+
+impl Eq for MetaFile {}
 
 impl fmt::Display for MetaFile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
