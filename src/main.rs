@@ -4,9 +4,8 @@ use find_duplicates::recursive_dir_reader::RecReadDir;
 use indexmap::indexset;
 use indexmap::IndexSet;
 
-use std::collections::{hash_map::Entry, HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 use std::env;
-use std::io::Write;
 use std::path::PathBuf;
 use std::process;
 
@@ -149,8 +148,11 @@ fn find_sizewise_dups(files: impl IntoIterator<Item = MetaFile>) -> SizewiseDups
     files_by_size
 }
 
-fn calc_file_checksumsr(mut fs: HashSet<MetaFile>) -> HashSet<(u32, MetaFile)> {
-    fs.par_drain()
+fn calc_file_checksumsr(
+    files: impl IntoParallelIterator<Item = MetaFile>,
+) -> HashSet<(u32, MetaFile)> {
+    files
+        .into_par_iter()
         .map(|f| {
             let p = &f.paths()[0];
             let bytes_of_file: Vec<u8> = std::fs::read(p).unwrap();
@@ -169,48 +171,32 @@ fn calc_file_checksumsr(mut fs: HashSet<MetaFile>) -> HashSet<(u32, MetaFile)> {
 // given checksum.     /* TODO consider changing to set */
 type Dups = HashMap<u32, HashSet<MetaFile>>;
 
-fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
+fn find_dups(mut sizewise_dups: SizewiseDups) -> Dups {
     let mut calculation_count: usize = 0;
-    let _total = sizewise_dups.values().flatten().count();
     let grps = sizewise_dups.len();
-    // keep track of checksums for which 2 or more files have been found
-    let mut dup_checksums: HashSet<u32> = HashSet::new();
-    // build map of checksums to lists of files with that checksum
-    let mut maybe_dups: Dups = HashMap::new();
+    let mut files_by_checksum: Dups = HashMap::new();
     for (grp, (size, files)) in sizewise_dups.drain().enumerate() {
         assert!(files.len() > 1);
-        print!(
+        eprint!(
             "(group {}/{}): calculating checksums of {} files with size {}...\r",
             grp,
             grps,
             files.len(),
             size
         );
-        std::io::stdout().flush().unwrap();
         calculation_count += files.len();
-        let mut cs = calc_file_checksumsr(files);
-        for (checksum, fil) in cs.drain() {
-            match maybe_dups.entry(checksum) {
-                Entry::Occupied(mut e) => {
-                    assert!(e.get_mut().insert(fil));
-                    dup_checksums.insert(checksum);
-                }
-                Entry::Vacant(e) => {
-                    e.insert(HashSet::from([fil]));
-                }
-            }
+        let mut checksums = calc_file_checksumsr(files);
+        for (checksum, f) in checksums.drain() {
+            files_by_checksum
+                .entry(checksum)
+                .or_insert(HashSet::with_capacity(1))
+                .insert(f);
         }
     }
-    println!(
-        "Calculated checksums of {} files.                                      ",
-        calculation_count
-    );
+    eprintln!("\nCalculated checksums of {} files.", calculation_count);
     // collect all of the dups we found
-    let mut res: Dups = HashMap::new();
-    for dup_checksum in dup_checksums {
-        res.insert(dup_checksum, maybe_dups.remove(&dup_checksum).unwrap());
-    }
-    res
+    files_by_checksum.retain(|_, files| files.len() > 1);
+    files_by_checksum
 }
 
 fn print_dups(ds: &Dups) {
@@ -239,7 +225,7 @@ fn main() {
     );
     println!("took: {:?}", start.elapsed());
     start = Instant::now();
-    let dups = filter_non_dups(sizewise_dups);
+    let dups = find_dups(sizewise_dups);
     println!("Found {} duplicates.", dups.len());
     if dups.len() < 25 || !atty::is(Stream::Stdout) {
         print_dups(&dups);
