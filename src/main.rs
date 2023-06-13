@@ -1,17 +1,14 @@
-#![feature(windows_by_handle)]
-
+use find_duplicates::file_id::get_file_identifier;
 use find_duplicates::metafile::MetaFile;
 use find_duplicates::recursive_dir_reader::RecReadDir;
 use indexmap::indexset;
 use indexmap::IndexSet;
 
-use std::collections::hash_map::Entry;
-use std::collections::HashMap;
-use std::collections::HashSet;
+use std::collections::{hash_map::Entry, HashMap, HashSet};
 use std::env;
 use std::fs;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process;
 
 use adler32::adler32;
@@ -104,31 +101,6 @@ fn parse_args(mut args: env::Args) -> Options {
         process::exit(1);
     }
     res
-}
-
-/*
-  TERM: I'm using 'file identifier' to mean a number that is shared across (hard  or
-  soft) linked files.
-*/
-
-#[cfg(unix)]
-fn get_file_identifier(fp: &Path) -> u64 {
-    /* on unix, we can use the inode number as a file identifier. */
-    use std::os::unix::fs::MetadataExt;
-    /* NOTE: this function expects the path passed in to
-    have been pre-verified to exist. */
-    let md = fs::metadata(fp).unwrap();
-    md.ino()
-}
-
-#[cfg(windows)]
-fn get_file_identifier(fp: &Path) -> u64 {
-    /* on windows, we can use the nFileIndex{Low,High} as a file identifier. */
-    use std::os::windows::fs::MetadataExt;
-    /* NOTE: this function expects the path passed in to
-    have been pre-verified to exist. */
-    let md = fs::metadata(fp).unwrap();
-    md.file_index().unwrap()
 }
 
 type EntriesByIdentifiers = HashMap<u64, IndexSet<PathBuf>>;

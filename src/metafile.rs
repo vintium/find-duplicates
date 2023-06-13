@@ -2,6 +2,8 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
 
+use crate::file_id::get_file_identifier;
+
 use indexmap::{indexset, IndexSet};
 
 pub struct MetaFile {
@@ -14,6 +16,22 @@ pub struct MetaFile {
 impl MetaFile {
     pub fn new(id: u64, paths: IndexSet<PathBuf>) -> Self {
         Self { id, paths }
+    }
+
+    pub fn from_id(id: u64) -> Self {
+        Self {
+            id,
+            paths: indexset![],
+        }
+    }
+
+    pub fn try_add_path(&mut self, p: PathBuf) -> Result<(), ()> {
+        if get_file_identifier(&p) == self.id {
+            self.paths.insert(p);
+            Ok(())
+        } else {
+            Err(())
+        }
     }
 
     pub fn id(&self) -> u64 {
