@@ -121,12 +121,12 @@ mod test {
 
     #[test]
     fn metafiles_hard_link() -> io::Result<()> {
-        // setup
+        /* setup */
         fs::create_dir("test-tmp")?;
         fs::write("test-tmp/file1", "meow")?;
         fs::write("test-tmp/file2", "nya")?;
         fs::hard_link("test-tmp/file1", "test-tmp/file1-hardlink")?;
-        // test
+        /* test */
         let mut metafiles = indexset![];
         collect_into_metafiles(
             &mut metafiles,
@@ -149,7 +149,7 @@ mod test {
                         ]
             )
         }
-        // cleanup
+        /* cleanup */
         fs::remove_dir_all("test-tmp")
     }
 
@@ -176,7 +176,7 @@ mod test {
                 .arg("test-tmp\\file1")
                 .output()?);
         }
-        // test
+        /* test */
         let mut metafiles = indexset![];
         collect_into_metafiles(
             &mut metafiles,
@@ -199,7 +199,7 @@ mod test {
                         ]
             )
         }
-        // cleanup
+        /* cleanup */
         fs::remove_dir_all("test-tmp")
     }
 }
