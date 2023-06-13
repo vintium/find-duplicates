@@ -10,10 +10,10 @@ pub struct RecReadDir {
 }
 
 impl RecReadDir {
-    pub fn new(start: &Path) -> io::Result<RecReadDir> {
+    pub fn new(start: impl AsRef<Path>) -> io::Result<RecReadDir> {
         Ok(RecReadDir {
             dirs: vec![],
-            current: start.read_dir()?,
+            current: start.as_ref().read_dir()?,
         })
     }
 }
@@ -46,5 +46,43 @@ impl Iterator for RecReadDir {
             }
             None
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::collections::HashSet;
+    use std::fs;
+    use std::io;
+    use std::path::PathBuf;
+
+    use super::RecReadDir;
+
+    #[test]
+    fn recursively_read_dir() -> io::Result<()> {
+        /* setup */
+        fs::create_dir("test-tmp")?;
+        fs::write("test-tmp/file1", "meow1")?;
+        fs::write("test-tmp/file2", "meow2")?;
+        fs::create_dir("test-tmp/nested")?;
+        fs::write("test-tmp/nested/file3", "meow3")?;
+        fs::write("test-tmp/nested/file4", "meow4")?;
+        /* test */
+        let entries: HashSet<PathBuf> = RecReadDir::new("test-tmp")?
+            .map(Result::unwrap)
+            .map(|a| a.path())
+            .collect();
+        assert_eq!(
+            entries,
+            HashSet::from([
+                PathBuf::from("test-tmp\\file2"),
+                PathBuf::from("test-tmp\\file1"),
+                PathBuf::from("test-tmp\\nested"),
+                PathBuf::from("test-tmp\\nested\\file3"),
+                PathBuf::from("test-tmp\\nested\\file4"),
+            ]),
+        );
+        /* cleanup */
+        fs::remove_dir_all("test-tmp")
     }
 }
