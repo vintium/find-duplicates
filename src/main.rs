@@ -183,7 +183,7 @@ fn calc_file_checksumsr(mut fs: HashSet<MetaFile>) -> HashSet<(u32, MetaFile)> {
 
 // a map whose keys are checksums and whose values are vecs of files with a
 // given checksum.     /* TODO consider changing to set */
-type Dups = HashMap<u32, Vec<MetaFile>>;
+type Dups = HashMap<u32, HashSet<MetaFile>>;
 
 fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
     let mut calculation_count: usize = 0;
@@ -208,11 +208,11 @@ fn filter_non_dups(mut sizewise_dups: SizewiseDups) -> Dups {
         for (checksum, fil) in cs.drain() {
             match maybe_dups.entry(checksum) {
                 Entry::Occupied(mut e) => {
-                    e.get_mut().push(fil);
+                    assert!(e.get_mut().insert(fil));
                     dup_checksums.insert(checksum);
                 }
                 Entry::Vacant(e) => {
-                    e.insert(vec![fil]);
+                    e.insert(HashSet::from([fil]));
                 }
             }
         }
