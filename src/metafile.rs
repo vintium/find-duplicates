@@ -91,7 +91,13 @@ pub fn collect_into_metafiles(
         if !keep_dirs && fs::metadata(&p).map_or(false, |d| d.is_dir()) {
             continue;
         }
-        let Ok(id) = get_file_identifier(&p) else {continue;};
+        let id = match get_file_identifier(&p) {
+            Ok(id) => id,
+            Err(e) => {
+                eprintln!("Skipping error:\n {e}");
+                continue;
+            }
+        };
         match acc.take(&MetaFile::from_id(id)) {
             Some(mut mf) => {
                 assert!(mf.try_add_path(p).is_ok());
@@ -115,20 +121,12 @@ mod test {
     use super::collect_into_metafiles;
 
     #[test]
-    fn metafiles() -> io::Result<()> {
+    fn metafiles_hard_link() -> io::Result<()> {
         // setup
         fs::create_dir("test-tmp")?;
         fs::write("test-tmp/file1", "meow")?;
         fs::write("test-tmp/file2", "nya")?;
         fs::hard_link("test-tmp/file1", "test-tmp/file1-hardlink")?;
-        #[cfg(unix)]
-        {
-            std::os::unix::fs::symlink("test-tmp/file1", "test-tmp/file1-symlink")?
-        }
-        #[cfg(windows)]
-        {
-            // std::os::windows::fs::symlink_file("test-tmp\\file1", "test-tmp\\file1-symlink")?
-        }
         // test
         let mut metafiles = indexset![];
         collect_into_metafiles(
@@ -136,7 +134,6 @@ mod test {
             [
                 PathBuf::from("test-tmp/file1"),
                 PathBuf::from("test-tmp/file1-hardlink"),
-                // PathBuf::from("test-tmp/file1-symlink"),
                 PathBuf::from("test-tmp/file2"),
             ],
             false,
@@ -149,8 +146,57 @@ mod test {
                     || file.paths()
                         == &indexset![
                             PathBuf::from("test-tmp/file1"),
-                            PathBuf::from("test-tmp/file1-hardlink"),
-                            // PathBuf::from("test-tmp/file1-symlink")
+                            PathBuf::from("test-tmp/file1-hardlink")
+                        ]
+            )
+        }
+        // cleanup
+        fs::remove_dir_all("test-tmp")
+    }
+
+    #[ignore]
+    #[test]
+    fn metafiles_soft_link() -> io::Result<()> {
+        fs::create_dir("test-tmp")?;
+        fs::write("test-tmp/file1", "meow")?;
+        fs::write("test-tmp/file2", "nya")?;
+        #[cfg(unix)]
+        {
+            std::os::unix::fs::symlink("test-tmp/file1", "test-tmp/file1-symlink")?
+        }
+        #[cfg(windows)]
+        {
+            dbg!(std::process::Command::new("powershell")
+                .arg("-Command")
+                .arg("New-Item")
+                .arg("-ItemType")
+                .arg("SymbolicLink")
+                .arg("-Path")
+                .arg("test-tmp\\file1-symlink")
+                .arg("-Target")
+                .arg("test-tmp\\file1")
+                .output()?);
+        }
+        // test
+        let mut metafiles = indexset![];
+        collect_into_metafiles(
+            &mut metafiles,
+            [
+                PathBuf::from("test-tmp/file1"),
+                PathBuf::from("test-tmp/file1-softlink"),
+                PathBuf::from("test-tmp/file2"),
+            ],
+            false,
+        );
+        dbg!(&metafiles);
+        assert_eq!(metafiles.len(), 2);
+        for file in &metafiles {
+            assert!(
+                file.paths() == &indexset![PathBuf::from("test-tmp/file2")]
+                    || file.paths()
+                        == &indexset![
+                            PathBuf::from("test-tmp/file1"),
+                            PathBuf::from("test-tmp/file1-softlink")
                         ]
             )
         }
