@@ -27,7 +27,7 @@ impl MetaFile {
     }
 
     pub fn try_add_path(&mut self, p: PathBuf) -> Result<(), ()> {
-        if get_file_identifier(&p) == self.id {
+        if get_file_identifier(&p).is_ok_and(|id| id == self.id) {
             self.paths.insert(p);
             Ok(())
         } else {
@@ -89,7 +89,7 @@ where
         if !keep_dirs && fs::metadata(&p).map_or(false, |d| d.is_dir()) {
             continue;
         }
-        let id = get_file_identifier(&p);
+        let Ok(id) = get_file_identifier(&p) else {continue;};
         match acc.take(&MetaFile::from_id(id)) {
             Some(mut mf) => {
                 assert!(mf.try_add_path(p).is_ok());
