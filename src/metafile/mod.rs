@@ -11,27 +11,48 @@ use indexmap::{indexset, IndexSet};
 
 #[derive(Debug, Clone)]
 pub struct MetaFile {
-    id: u64,                  /* id from the OS; this must be an identifier that any two
-                              files that are linked together (hardly or softly) will share;
-                              inode on unix, nFileIndex{Low,High} on windows */
-    paths: IndexSet<PathBuf>, /* paths to files which share `id` as their identifier */
+    id: u64,                     /* id from the OS; this must be an identifier that any two
+                                 files that are linked together (hardly or symbolicaly) will share;
+                                 inode on unix, nFileIndex{Low,High} on windows */
+    files: IndexSet<PathBuf>, /* paths to files which share `id` as their identifier */
+    symlinks: IndexSet<PathBuf>, /* paths to symlinks which share `id` as their identifier */
 }
 
 impl MetaFile {
-    pub fn new(id: u64, paths: IndexSet<PathBuf>) -> Self {
-        Self { id, paths }
+    pub fn new(id: u64, files: IndexSet<PathBuf>, symlinks: IndexSet<PathBuf>) -> Self {
+        Self {
+            id,
+            files,
+            symlinks,
+        }
+    }
+
+    pub fn from_id_and_path(id: u64, file: PathBuf) -> Self {
+        let mut files = indexset![];
+        let mut symlinks = indexset![];
+        if file.is_symlink() {
+            symlinks.insert(file);
+        } else {
+            files.insert(file);
+        }
+        Self::new(id, files, symlinks)
     }
 
     pub fn from_id(id: u64) -> Self {
         Self {
             id,
-            paths: indexset![],
+            files: indexset![],
+            symlinks: indexset![],
         }
     }
 
     pub fn try_add_path(&mut self, p: PathBuf) -> Result<bool, ()> {
         if get_file_identifier(&p).is_ok_and(|id| id == self.id) {
-            Ok(self.paths.insert(p))
+            if p.is_symlink() {
+                Ok(self.symlinks.insert(p))
+            } else {
+                Ok(self.files.insert(p))
+            }
         } else {
             Err(())
         }
@@ -41,8 +62,8 @@ impl MetaFile {
         self.id
     }
 
-    pub fn paths(&self) -> &IndexSet<PathBuf> {
-        &self.paths
+    pub fn paths(&self) -> IndexSet<&PathBuf> {
+        self.files.union(&self.symlinks).collect()
     }
 }
 
@@ -74,19 +95,19 @@ impl PartialOrd for MetaFile {
 
 impl fmt::Display for MetaFile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.paths[0].as_os_str().to_string_lossy())?;
-        if self.paths.len() > 1 {
+        write!(f, "{:?}", self.paths()[0].as_os_str().to_string_lossy())?;
+        if self.paths().len() > 1 {
             write!(f, " (aka ")?;
         }
-        for idx in 1..(self.paths.len() - 1) {
-            let de = &self.paths[idx];
+        for idx in 1..(self.paths().len() - 1) {
+            let de = &self.paths()[idx];
             write!(f, "{:?}, ", de.as_os_str().to_string_lossy())?;
         }
-        if self.paths.len() > 1 {
+        if self.paths().len() > 1 {
             write!(
                 f,
                 "{:?})",
-                self.paths[self.paths.len() - 1]
+                self.paths()[self.paths().len() - 1]
                     .as_os_str()
                     .to_string_lossy()
             )?;
@@ -117,7 +138,7 @@ pub fn collect_into_metafiles(
                 assert!(acc.insert(mf));
             }
             None => {
-                assert!(acc.insert(MetaFile::new(id, indexset![p])));
+                assert!(acc.insert(MetaFile::from_id_and_path(id, p)));
             }
         }
     }
@@ -136,32 +157,25 @@ mod test {
     #[test]
     fn metafiles_hard_link() -> io::Result<()> {
         /* setup */
+        let file2 = PathBuf::from("test-tmp/file2");
+        let file1 = PathBuf::from("test-tmp/file1");
+        let link = PathBuf::from("test-tmp/file1-hardlink");
         fs::create_dir("test-tmp")?;
-        fs::write("test-tmp/file1", "meow")?;
-        fs::write("test-tmp/file2", "nya")?;
-        fs::hard_link("test-tmp/file1", "test-tmp/file1-hardlink")?;
+        fs::write(&file1, "meow")?;
+        fs::write(&file2, "nya")?;
+        fs::hard_link(&file1, &link)?;
         /* test */
         let mut metafiles = indexset![];
         collect_into_metafiles(
             &mut metafiles,
-            [
-                PathBuf::from("test-tmp/file1"),
-                PathBuf::from("test-tmp/file1-hardlink"),
-                PathBuf::from("test-tmp/file2"),
-            ],
+            [file1.clone(), file2.clone(), link.clone()],
             false,
         );
         dbg!(&metafiles);
+
         assert_eq!(metafiles.len(), 2);
         for file in &metafiles {
-            assert!(
-                file.paths() == &indexset![PathBuf::from("test-tmp/file2")]
-                    || file.paths()
-                        == &indexset![
-                            PathBuf::from("test-tmp/file1"),
-                            PathBuf::from("test-tmp/file1-hardlink")
-                        ]
-            )
+            assert!(file.paths() == indexset![&file2] || file.paths() == indexset![&file1, &link])
         }
         /* cleanup */
         fs::remove_dir_all("test-tmp")
@@ -169,13 +183,17 @@ mod test {
 
     #[ignore]
     #[test]
-    fn metafiles_soft_link() -> io::Result<()> {
+    fn metafiles_symlink() -> io::Result<()> {
+        /* setup */
+        let file2 = PathBuf::from("test-tmp/file2");
+        let file1 = PathBuf::from("test-tmp/file1");
+        let link = PathBuf::from("test-tmp/file1-symlink");
         fs::create_dir("test-tmp")?;
-        fs::write("test-tmp/file1", "meow")?;
-        fs::write("test-tmp/file2", "nya")?;
+        fs::write(&file1, "meow")?;
+        fs::write(&file2, "nya")?;
         #[cfg(unix)]
         {
-            std::os::unix::fs::symlink("test-tmp/file1", "test-tmp/file1-symlink")?
+            std::os::unix::fs::symlink(&file1, &link)?
         }
         #[cfg(windows)]
         {
@@ -194,24 +212,14 @@ mod test {
         let mut metafiles = indexset![];
         collect_into_metafiles(
             &mut metafiles,
-            [
-                PathBuf::from("test-tmp/file1"),
-                PathBuf::from("test-tmp/file1-softlink"),
-                PathBuf::from("test-tmp/file2"),
-            ],
+            [file1.clone(), file2.clone(), link.clone()],
             false,
         );
         dbg!(&metafiles);
+
         assert_eq!(metafiles.len(), 2);
         for file in &metafiles {
-            assert!(
-                file.paths() == &indexset![PathBuf::from("test-tmp/file2")]
-                    || file.paths()
-                        == &indexset![
-                            PathBuf::from("test-tmp/file1"),
-                            PathBuf::from("test-tmp/file1-softlink")
-                        ]
-            )
+            assert!(file.paths() == indexset![&file2] || file.paths() == indexset![&file1, &link])
         }
         /* cleanup */
         fs::remove_dir_all("test-tmp")
