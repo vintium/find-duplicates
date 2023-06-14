@@ -1,8 +1,9 @@
+use std::cmp::Ordering;
 use std::fmt;
 use std::fs;
 use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
-
+pub mod c_command;
 mod file_id;
 use file_id::get_file_identifier;
 
@@ -58,6 +59,18 @@ impl PartialEq for MetaFile {
 }
 
 impl Eq for MetaFile {}
+
+impl Ord for MetaFile {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.paths()[0].cmp(&other.paths()[0])
+    }
+}
+
+impl PartialOrd for MetaFile {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
 
 impl fmt::Display for MetaFile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

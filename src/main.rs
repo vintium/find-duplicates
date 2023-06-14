@@ -237,9 +237,10 @@ fn main() {
             .cloned()
             .flatten()
             .collect();
-        let uniques = (&file_list).difference(&dup_files);
+        let mut uniques: Vec<&MetaFile> = file_list.difference(&dup_files).collect();
+        uniques.sort();
         for unique in uniques {
-            print!("{unique}");
+            println!("{unique}");
         }
     } else {
         println!("Found {} duplicates.", dups.len());
