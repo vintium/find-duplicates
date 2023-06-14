@@ -3,7 +3,7 @@ use std::io;
 use std::path::Path;
 
 /* id from the OS; this must be an identifier that any two
-files that are linked together (hardly or softly) will share;
+files that are linked together (hardly or symbolically) will share;
 inode on unix, nFileIndex{Low,High} on windows */
 
 #[cfg(unix)]
