@@ -3,7 +3,7 @@ use std::fmt;
 use std::fs;
 use std::hash::{Hash, Hasher};
 use std::path::PathBuf;
-pub mod c_command;
+mod c_command;
 mod file_id;
 use file_id::get_file_identifier;
 
@@ -64,6 +64,10 @@ impl MetaFile {
 
     pub fn paths(&self) -> IndexSet<&PathBuf> {
         self.files.union(&self.symlinks).collect()
+    }
+
+    pub fn c_commands(&self, other: &Self) -> bool {
+        c_command::c_commands(self.paths()[0], other.paths()[0])
     }
 }
 
